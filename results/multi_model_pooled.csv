@@ -1,0 +1,21 @@
+section,quantity,n,estimate,ci_low,ci_high,note
+3.3 all_in_context,"mixed (model,task) units",718,718.0,,,
+3.3 all_in_context,tasks_with_mixed_units,83,83.0,,,
+3.3 all_in_context,mean_task_diff_pass_minus_fail,83,0.119,,,
+3.3 all_in_context,tasks_pass_higher,63,43.0,,,"fail_higher=20, ties=20; exact sign test p=0.0052"
+3.3 all_in_context,MH_risk_diff_fail_complete_minus_incomplete,2512,-0.141,-0.201,-0.088,all strata
+3.3 all_in_context,MH_risk_diff_fail_complete_minus_incomplete,718,-0.331,-0.448,-0.212,mixed strata only
+3.3 all_opened,"mixed (model,task) units",718,718.0,,,
+3.3 all_opened,tasks_with_mixed_units,83,83.0,,,
+3.3 all_opened,mean_task_diff_pass_minus_fail,83,0.021,,,
+3.3 all_opened,tasks_pass_higher,42,26.0,,,"fail_higher=16, ties=41; exact sign test p=0.1641"
+3.3 all_opened,MH_risk_diff_fail_complete_minus_incomplete,2512,-0.058,-0.113,-0.006,all strata
+3.3 all_opened,MH_risk_diff_fail_complete_minus_incomplete,718,-0.139,-0.272,-0.009,mixed strata only
+3.4 task share,tasks_failing_in_every_run_of_every_model,97,0.144,,,14 of 97
+3.4 task share,tasks_passing_in_every_run_of_every_model,97,0.0,,,0 of 97
+3.4 task share,model_task_cells_failing_all_trials,2512,0.566,,,
+3.4 task share,model_task_cells_passing_all_trials,2512,0.148,,,
+3.4 task share,model_task_cells_mixed,2512,0.286,,,
+3.4 AUROC of priors,task_only (other models' fail rate),9846,0.827,0.784,0.857,
+3.4 AUROC of priors,model_only (model fail rate),9846,0.688,0.657,0.719,
+3.4 AUROC of priors,"task+model (2-feature logistic, in-sample)",9846,0.887,0.862,0.907,

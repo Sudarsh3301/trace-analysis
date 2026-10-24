@@ -64,12 +64,16 @@ def load(path, out_dir=None):
     data = json.loads(path.read_text(encoding="utf-8"))
     req = {t["id"]: t.get("required_documents") or [] for t in data["tasks"]}
     runs, msgs, checks = [], [], []
-    for sim in data["simulations"]:
+    # runs without a reward (infrastructure errors) cannot be scored: drop them, and say so
+    scored = [s for s in data["simulations"] if (s.get("reward_info") or {}).get("reward") is not None]
+    dropped = len(data["simulations"]) - len(scored)
+    (out / "meta.json").write_text(json.dumps({"n_simulations": len(data["simulations"]), "dropped_no_reward": dropped}))
+    for sim in scored:
         r, m, c = load_sim(sim, req.get(sim["task_id"], []))
         runs.append(r), msgs.extend(m), checks.extend(c)
     for name, rows in (("runs", runs), ("messages", msgs), ("action_checks", checks)):
         pd.DataFrame(rows).to_parquet(out / f"{name}.parquet", index=False)
-    print(f"{len(runs)} runs, {len(msgs)} message rows -> {out}")
+    print(f"{len(runs)} runs ({dropped} dropped: no reward), {len(msgs)} message rows -> {out}")
     return out
 
 

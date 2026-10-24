@@ -11,17 +11,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import GroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from .boot import auc_point_and_draws, ci
 from .facts import work_dir
 
 AREAS = ["bank_accounts", "business_checking_accounts", "business_credit_cards",
          "business_savings_accounts", "checking_accounts", "credit_cards", "customer_support",
          "savings_accounts"]
-BOOT, SEED = 2000, 0
 NON_FEATURES = {"run_id", "k", "reward", "task_id", "trial"}
 
 
@@ -59,7 +58,7 @@ def task_prior(df, exclude_trial=None):
     out = np.zeros(len(df))
     for i, (tid, tr) in enumerate(zip(df.task_id, df.trial)):
         o = df[(df.task_id == tid) & (df.trial != tr) & (df.trial != exclude_trial)]
-        out[i] = o.reward.mean()
+        out[i] = o.reward.mean() if len(o) else df.reward.mean()  # no other trial: overall pass rate
     return out
 
 
@@ -79,15 +78,8 @@ def oof_r2(X, y, df, has_prior):
 
 def boot_auc(y, pred, tasks):
     """AUROC and 95% CI over task-clustered bootstrap resamples."""
-    rng = np.random.default_rng(SEED)
-    idx = {t: np.flatnonzero(tasks == t) for t in np.unique(tasks)}
-    keys = list(idx)
-    aucs = []
-    for _ in range(BOOT):
-        pick = np.concatenate([idx[keys[i]] for i in rng.integers(0, len(keys), len(keys))])
-        if 0 < y[pick].sum() < len(pick):
-            aucs.append(roc_auc_score(y[pick], pred[pick]))
-    return roc_auc_score(y, pred), *np.percentile(aucs, [2.5, 97.5])
+    auc, draws = auc_point_and_draws(y, pred, tasks)
+    return auc, *ci(draws)
 
 
 def build(work):
@@ -97,29 +89,33 @@ def build(work):
     return runs, task_features(runs, checks), facts
 
 
-def main(work):
-    runs, T, facts = build(work)
+def baseline_rows(runs, T, facts, ks=("2", "4", "6", "all"), only=None):
+    """AUROC rows for every regime/feature set; `only` = {(regime, set), ...} limits the work."""
     y, tasks = runs.y.values, runs.task_id.values
     T_cols = [c for c in T.columns if c != "run_id"]
+    P = task_prior(runs)[:, None]
+    Tm = T.set_index("run_id").loc[runs.run_id][T_cols].values.astype(float)
     rows = []
-    for k in ["2", "4", "6", "all"]:
+    for k in ks:
         f = facts[facts.k == k].set_index("run_id").loc[runs.run_id]
         F = f[[c for c in f.columns if c not in NON_FEATURES]].fillna(0).values.astype(float)
         L = f[["n_messages", "n_tool_calls"]].values.astype(float)
-        Tm = T.set_index("run_id").loc[runs.run_id][T_cols].values.astype(float)
-        P = task_prior(runs)[:, None]
         sets = {"R1": {"T": Tm, "L": L, "F": F, "T+L": np.hstack([Tm, L]), "T+F": np.hstack([Tm, F])},
                 "R2": {"P": P, "L": L, "F": F, "P+L": np.hstack([P, L]), "P+F": np.hstack([P, F])}}
         for regime, fs in sets.items():
             for name, X in fs.items():
-                if regime == "R1":
-                    pred = oof_r1(X, y, tasks)
-                else:
-                    pred = oof_r2(X, y, runs, name.startswith("P"))
+                if only and (regime, name) not in only:
+                    continue
+                pred = oof_r1(X, y, tasks) if regime == "R1" else oof_r2(X, y, runs, name.startswith("P"))
                 auc, lo, hi = boot_auc(y, pred, tasks)
                 rows.append({"regime": regime, "k": k, "feature_set": name, "auroc": round(auc, 3),
                              "ci_low": round(lo, 3), "ci_high": round(hi, 3), "n_runs": len(y)})
-    out = pd.DataFrame(rows)
+    return rows
+
+
+def main(work):
+    runs, T, facts = build(work)
+    out = pd.DataFrame(baseline_rows(runs, T, facts))
     Path("results").mkdir(exist_ok=True)
     out.to_csv("results/baselines.csv", index=False)
     print(out.to_string(index=False))

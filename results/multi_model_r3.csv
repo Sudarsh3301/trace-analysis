@@ -1,0 +1,325 @@
+model,k,feature_set,auroc,ci_low,ci_high
+claude-fable-5_sierra_2026-08-04,2,C,0.884,0.824,0.929
+claude-opus-4-5_sierra_2026-02-26,2,C,0.81,0.713,0.885
+claude-opus-4-6_sierra_2026-05-05,2,C,0.812,0.738,0.875
+claude-opus-4-7_sierra_2026-05-05,2,C,0.893,0.845,0.928
+claude-opus-4-8_sierra_2026-08-04,2,C,0.895,0.844,0.934
+claude-opus-5_sierra_2026-08-04,2,C,0.828,0.753,0.892
+claude-sonnet-4-5_sierra_2026-02-26,2,C,0.829,0.756,0.892
+gemini-2-5-pro_sierra_2026-05-05,2,C,0.878,0.817,0.927
+gemini-3-1-pro-preview_sierra_2026-05-05,2,C,0.822,0.75,0.884
+gemini-3-flash_sierra_2026-03-02,2,C,0.831,0.766,0.885
+gemini-3-pro_sierra_2026-03-02,2,C,0.86,0.794,0.912
+glm-5-2_sierra_2026-08-04,2,C,0.847,0.791,0.893
+glm-5-think_sierra_2026-03-02,2,C,0.86,0.735,0.947
+gpt-5-2-none_sierra_2026-02-26,2,C,0.861,0.796,0.917
+gpt-5-2_sierra_2026-02-26,2,C,0.867,0.808,0.917
+gpt-5-4_sierra_2026-03-25,2,C,0.861,0.799,0.914
+gpt-5-5_sierra_2026-05-05,2,C,0.911,0.859,0.95
+gpt-5-6-sol_sierra_2026-08-04,2,C,0.838,0.756,0.9
+grok-4-1-fast_sierra_2026-05-05,2,C,0.887,0.814,0.942
+grok-4-2_sierra_2026-05-05,2,C,0.907,0.857,0.947
+grok-4-5_sierra_2026-08-04,2,C,0.896,0.846,0.936
+grok-4-fast_sierra_2026-05-05,2,C,0.875,0.794,0.932
+inkling_sierra_2026-08-04,2,C,0.869,0.811,0.917
+kimi-k3_sierra_2026-08-04,2,C,0.853,0.794,0.899
+qwen3-8-max_sierra_2026-08-04,2,C,0.862,0.802,0.913
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,C,0.842,0.762,0.909
+MEAN OF MODELS,2,C,0.861,0.824,0.891
+claude-fable-5_sierra_2026-08-04,2,C+F,0.883,0.823,0.927
+claude-opus-4-5_sierra_2026-02-26,2,C+F,0.793,0.698,0.868
+claude-opus-4-6_sierra_2026-05-05,2,C+F,0.77,0.688,0.841
+claude-opus-4-7_sierra_2026-05-05,2,C+F,0.879,0.83,0.917
+claude-opus-4-8_sierra_2026-08-04,2,C+F,0.878,0.826,0.919
+claude-opus-5_sierra_2026-08-04,2,C+F,0.814,0.741,0.874
+claude-sonnet-4-5_sierra_2026-02-26,2,C+F,0.782,0.701,0.855
+gemini-2-5-pro_sierra_2026-05-05,2,C+F,0.812,0.729,0.89
+gemini-3-1-pro-preview_sierra_2026-05-05,2,C+F,0.818,0.741,0.881
+gemini-3-flash_sierra_2026-03-02,2,C+F,0.826,0.761,0.883
+gemini-3-pro_sierra_2026-03-02,2,C+F,0.83,0.763,0.888
+glm-5-2_sierra_2026-08-04,2,C+F,0.842,0.789,0.888
+glm-5-think_sierra_2026-03-02,2,C+F,0.885,0.802,0.946
+gpt-5-2-none_sierra_2026-02-26,2,C+F,0.828,0.724,0.914
+gpt-5-2_sierra_2026-02-26,2,C+F,0.845,0.779,0.901
+gpt-5-4_sierra_2026-03-25,2,C+F,0.832,0.764,0.89
+gpt-5-5_sierra_2026-05-05,2,C+F,0.867,0.798,0.923
+gpt-5-6-sol_sierra_2026-08-04,2,C+F,0.78,0.702,0.847
+grok-4-1-fast_sierra_2026-05-05,2,C+F,0.9,0.834,0.95
+grok-4-2_sierra_2026-05-05,2,C+F,0.872,0.804,0.926
+grok-4-5_sierra_2026-08-04,2,C+F,0.852,0.788,0.904
+grok-4-fast_sierra_2026-05-05,2,C+F,0.884,0.82,0.936
+inkling_sierra_2026-08-04,2,C+F,0.844,0.776,0.903
+kimi-k3_sierra_2026-08-04,2,C+F,0.826,0.764,0.878
+qwen3-8-max_sierra_2026-08-04,2,C+F,0.817,0.748,0.873
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,C+F,0.876,0.8,0.938
+MEAN OF MODELS,2,C+F,0.84,0.805,0.87
+claude-fable-5_sierra_2026-08-04,2,C+P,0.938,0.895,0.965
+claude-opus-4-5_sierra_2026-02-26,2,C+P,0.889,0.827,0.932
+claude-opus-4-6_sierra_2026-05-05,2,C+P,0.896,0.842,0.935
+claude-opus-4-7_sierra_2026-05-05,2,C+P,0.913,0.871,0.941
+claude-opus-4-8_sierra_2026-08-04,2,C+P,0.923,0.884,0.951
+claude-opus-5_sierra_2026-08-04,2,C+P,0.912,0.862,0.949
+claude-sonnet-4-5_sierra_2026-02-26,2,C+P,0.885,0.817,0.931
+gemini-2-5-pro_sierra_2026-05-05,2,C+P,0.894,0.843,0.933
+gemini-3-1-pro-preview_sierra_2026-05-05,2,C+P,0.865,0.796,0.916
+gemini-3-flash_sierra_2026-03-02,2,C+P,0.845,0.779,0.895
+gemini-3-pro_sierra_2026-03-02,2,C+P,0.878,0.808,0.925
+glm-5-2_sierra_2026-08-04,2,C+P,0.866,0.812,0.907
+glm-5-think_sierra_2026-03-02,2,C+P,0.973,0.938,0.993
+gpt-5-2-none_sierra_2026-02-26,2,C+P,0.925,0.872,0.962
+gpt-5-2_sierra_2026-02-26,2,C+P,0.905,0.85,0.943
+gpt-5-4_sierra_2026-03-25,2,C+P,0.918,0.872,0.95
+gpt-5-5_sierra_2026-05-05,2,C+P,0.943,0.908,0.967
+gpt-5-6-sol_sierra_2026-08-04,2,C+P,0.889,0.837,0.927
+grok-4-1-fast_sierra_2026-05-05,2,C+P,0.921,0.86,0.961
+grok-4-2_sierra_2026-05-05,2,C+P,0.935,0.891,0.966
+grok-4-5_sierra_2026-08-04,2,C+P,0.921,0.882,0.95
+grok-4-fast_sierra_2026-05-05,2,C+P,0.897,0.829,0.943
+inkling_sierra_2026-08-04,2,C+P,0.893,0.834,0.936
+kimi-k3_sierra_2026-08-04,2,C+P,0.879,0.824,0.918
+qwen3-8-max_sierra_2026-08-04,2,C+P,0.901,0.853,0.935
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,C+P,0.915,0.828,0.968
+MEAN OF MODELS,2,C+P,0.905,0.878,0.922
+claude-fable-5_sierra_2026-08-04,2,C+P+F,0.929,0.883,0.959
+claude-opus-4-5_sierra_2026-02-26,2,C+P+F,0.87,0.8,0.921
+claude-opus-4-6_sierra_2026-05-05,2,C+P+F,0.882,0.821,0.926
+claude-opus-4-7_sierra_2026-05-05,2,C+P+F,0.904,0.859,0.935
+claude-opus-4-8_sierra_2026-08-04,2,C+P+F,0.92,0.882,0.949
+claude-opus-5_sierra_2026-08-04,2,C+P+F,0.892,0.838,0.935
+claude-sonnet-4-5_sierra_2026-02-26,2,C+P+F,0.863,0.794,0.914
+gemini-2-5-pro_sierra_2026-05-05,2,C+P+F,0.88,0.814,0.929
+gemini-3-1-pro-preview_sierra_2026-05-05,2,C+P+F,0.84,0.762,0.899
+gemini-3-flash_sierra_2026-03-02,2,C+P+F,0.846,0.781,0.898
+gemini-3-pro_sierra_2026-03-02,2,C+P+F,0.849,0.772,0.908
+glm-5-2_sierra_2026-08-04,2,C+P+F,0.86,0.805,0.901
+glm-5-think_sierra_2026-03-02,2,C+P+F,0.961,0.917,0.99
+gpt-5-2-none_sierra_2026-02-26,2,C+P+F,0.911,0.846,0.958
+gpt-5-2_sierra_2026-02-26,2,C+P+F,0.888,0.827,0.932
+gpt-5-4_sierra_2026-03-25,2,C+P+F,0.911,0.864,0.946
+gpt-5-5_sierra_2026-05-05,2,C+P+F,0.927,0.888,0.957
+gpt-5-6-sol_sierra_2026-08-04,2,C+P+F,0.869,0.812,0.915
+grok-4-1-fast_sierra_2026-05-05,2,C+P+F,0.924,0.862,0.968
+grok-4-2_sierra_2026-05-05,2,C+P+F,0.933,0.888,0.965
+grok-4-5_sierra_2026-08-04,2,C+P+F,0.918,0.878,0.948
+grok-4-fast_sierra_2026-05-05,2,C+P+F,0.904,0.841,0.949
+inkling_sierra_2026-08-04,2,C+P+F,0.891,0.838,0.932
+kimi-k3_sierra_2026-08-04,2,C+P+F,0.87,0.814,0.911
+qwen3-8-max_sierra_2026-08-04,2,C+P+F,0.877,0.827,0.916
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,C+P+F,0.929,0.852,0.977
+MEAN OF MODELS,2,C+P+F,0.894,0.868,0.912
+claude-fable-5_sierra_2026-08-04,2,delta C+F - C,-0.002,-0.029,0.025
+claude-fable-5_sierra_2026-08-04,2,delta C+P+F - C+P,-0.009,-0.02,0.002
+claude-opus-4-5_sierra_2026-02-26,2,delta C+F - C,-0.018,-0.06,0.023
+claude-opus-4-5_sierra_2026-02-26,2,delta C+P+F - C+P,-0.019,-0.048,0.007
+claude-opus-4-6_sierra_2026-05-05,2,delta C+F - C,-0.042,-0.079,-0.005
+claude-opus-4-6_sierra_2026-05-05,2,delta C+P+F - C+P,-0.014,-0.035,0.002
+claude-opus-4-7_sierra_2026-05-05,2,delta C+F - C,-0.014,-0.034,0.005
+claude-opus-4-7_sierra_2026-05-05,2,delta C+P+F - C+P,-0.008,-0.02,0.002
+claude-opus-4-8_sierra_2026-08-04,2,delta C+F - C,-0.017,-0.045,0.009
+claude-opus-4-8_sierra_2026-08-04,2,delta C+P+F - C+P,-0.003,-0.018,0.014
+claude-opus-5_sierra_2026-08-04,2,delta C+F - C,-0.014,-0.052,0.021
+claude-opus-5_sierra_2026-08-04,2,delta C+P+F - C+P,-0.019,-0.034,-0.006
+claude-sonnet-4-5_sierra_2026-02-26,2,delta C+F - C,-0.047,-0.093,-0.001
+claude-sonnet-4-5_sierra_2026-02-26,2,delta C+P+F - C+P,-0.022,-0.048,0.0
+gemini-2-5-pro_sierra_2026-05-05,2,delta C+F - C,-0.066,-0.139,-0.004
+gemini-2-5-pro_sierra_2026-05-05,2,delta C+P+F - C+P,-0.014,-0.062,0.027
+gemini-3-1-pro-preview_sierra_2026-05-05,2,delta C+F - C,-0.004,-0.038,0.03
+gemini-3-1-pro-preview_sierra_2026-05-05,2,delta C+P+F - C+P,-0.025,-0.052,0.002
+gemini-3-flash_sierra_2026-03-02,2,delta C+F - C,-0.004,-0.032,0.023
+gemini-3-flash_sierra_2026-03-02,2,delta C+P+F - C+P,0.001,-0.023,0.028
+gemini-3-pro_sierra_2026-03-02,2,delta C+F - C,-0.03,-0.055,-0.009
+gemini-3-pro_sierra_2026-03-02,2,delta C+P+F - C+P,-0.028,-0.054,-0.003
+glm-5-2_sierra_2026-08-04,2,delta C+F - C,-0.005,-0.028,0.019
+glm-5-2_sierra_2026-08-04,2,delta C+P+F - C+P,-0.006,-0.027,0.012
+glm-5-think_sierra_2026-03-02,2,delta C+F - C,0.025,-0.039,0.103
+glm-5-think_sierra_2026-03-02,2,delta C+P+F - C+P,-0.011,-0.03,-0.001
+gpt-5-2-none_sierra_2026-02-26,2,delta C+F - C,-0.033,-0.128,0.049
+gpt-5-2-none_sierra_2026-02-26,2,delta C+P+F - C+P,-0.013,-0.046,0.014
+gpt-5-2_sierra_2026-02-26,2,delta C+F - C,-0.021,-0.052,0.009
+gpt-5-2_sierra_2026-02-26,2,delta C+P+F - C+P,-0.017,-0.038,0.001
+gpt-5-4_sierra_2026-03-25,2,delta C+F - C,-0.029,-0.066,0.006
+gpt-5-4_sierra_2026-03-25,2,delta C+P+F - C+P,-0.007,-0.024,0.009
+gpt-5-5_sierra_2026-05-05,2,delta C+F - C,-0.044,-0.084,-0.014
+gpt-5-5_sierra_2026-05-05,2,delta C+P+F - C+P,-0.016,-0.028,-0.006
+gpt-5-6-sol_sierra_2026-08-04,2,delta C+F - C,-0.058,-0.101,-0.018
+gpt-5-6-sol_sierra_2026-08-04,2,delta C+P+F - C+P,-0.02,-0.043,-0.0
+grok-4-1-fast_sierra_2026-05-05,2,delta C+F - C,0.014,-0.034,0.057
+grok-4-1-fast_sierra_2026-05-05,2,delta C+P+F - C+P,0.004,-0.026,0.028
+grok-4-2_sierra_2026-05-05,2,delta C+F - C,-0.036,-0.087,0.008
+grok-4-2_sierra_2026-05-05,2,delta C+P+F - C+P,-0.002,-0.019,0.016
+grok-4-5_sierra_2026-08-04,2,delta C+F - C,-0.044,-0.078,-0.014
+grok-4-5_sierra_2026-08-04,2,delta C+P+F - C+P,-0.003,-0.012,0.006
+grok-4-fast_sierra_2026-05-05,2,delta C+F - C,0.01,-0.03,0.058
+grok-4-fast_sierra_2026-05-05,2,delta C+P+F - C+P,0.007,-0.017,0.037
+inkling_sierra_2026-08-04,2,delta C+F - C,-0.024,-0.072,0.015
+inkling_sierra_2026-08-04,2,delta C+P+F - C+P,-0.002,-0.025,0.026
+kimi-k3_sierra_2026-08-04,2,delta C+F - C,-0.027,-0.055,-0.005
+kimi-k3_sierra_2026-08-04,2,delta C+P+F - C+P,-0.009,-0.023,0.005
+qwen3-8-max_sierra_2026-08-04,2,delta C+F - C,-0.045,-0.078,-0.018
+qwen3-8-max_sierra_2026-08-04,2,delta C+P+F - C+P,-0.024,-0.04,-0.01
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,delta C+F - C,0.034,-0.012,0.089
+qwen3.5-397b-a17b-think_sierra_2026-03-02,2,delta C+P+F - C+P,0.014,-0.006,0.042
+MEAN OF MODELS,2,delta C+F - C,-0.021,-0.033,-0.009
+MEAN OF MODELS,2,delta C+P+F - C+P,-0.01,-0.015,-0.005
+claude-fable-5_sierra_2026-08-04,all,C,0.884,0.824,0.929
+claude-opus-4-5_sierra_2026-02-26,all,C,0.81,0.713,0.885
+claude-opus-4-6_sierra_2026-05-05,all,C,0.812,0.738,0.875
+claude-opus-4-7_sierra_2026-05-05,all,C,0.893,0.845,0.928
+claude-opus-4-8_sierra_2026-08-04,all,C,0.895,0.844,0.934
+claude-opus-5_sierra_2026-08-04,all,C,0.828,0.753,0.892
+claude-sonnet-4-5_sierra_2026-02-26,all,C,0.829,0.756,0.892
+gemini-2-5-pro_sierra_2026-05-05,all,C,0.878,0.817,0.927
+gemini-3-1-pro-preview_sierra_2026-05-05,all,C,0.822,0.75,0.884
+gemini-3-flash_sierra_2026-03-02,all,C,0.831,0.766,0.885
+gemini-3-pro_sierra_2026-03-02,all,C,0.86,0.794,0.912
+glm-5-2_sierra_2026-08-04,all,C,0.847,0.791,0.893
+glm-5-think_sierra_2026-03-02,all,C,0.86,0.735,0.947
+gpt-5-2-none_sierra_2026-02-26,all,C,0.861,0.796,0.917
+gpt-5-2_sierra_2026-02-26,all,C,0.867,0.808,0.917
+gpt-5-4_sierra_2026-03-25,all,C,0.861,0.799,0.914
+gpt-5-5_sierra_2026-05-05,all,C,0.911,0.859,0.95
+gpt-5-6-sol_sierra_2026-08-04,all,C,0.838,0.756,0.9
+grok-4-1-fast_sierra_2026-05-05,all,C,0.887,0.814,0.942
+grok-4-2_sierra_2026-05-05,all,C,0.907,0.857,0.947
+grok-4-5_sierra_2026-08-04,all,C,0.896,0.846,0.936
+grok-4-fast_sierra_2026-05-05,all,C,0.875,0.794,0.932
+inkling_sierra_2026-08-04,all,C,0.869,0.811,0.917
+kimi-k3_sierra_2026-08-04,all,C,0.853,0.794,0.899
+qwen3-8-max_sierra_2026-08-04,all,C,0.862,0.802,0.913
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,C,0.842,0.762,0.909
+MEAN OF MODELS,all,C,0.861,0.824,0.891
+claude-fable-5_sierra_2026-08-04,all,C+F,0.896,0.84,0.94
+claude-opus-4-5_sierra_2026-02-26,all,C+F,0.749,0.634,0.849
+claude-opus-4-6_sierra_2026-05-05,all,C+F,0.793,0.705,0.87
+claude-opus-4-7_sierra_2026-05-05,all,C+F,0.887,0.839,0.923
+claude-opus-4-8_sierra_2026-08-04,all,C+F,0.897,0.849,0.936
+claude-opus-5_sierra_2026-08-04,all,C+F,0.805,0.734,0.868
+claude-sonnet-4-5_sierra_2026-02-26,all,C+F,0.772,0.68,0.85
+gemini-2-5-pro_sierra_2026-05-05,all,C+F,0.78,0.673,0.882
+gemini-3-1-pro-preview_sierra_2026-05-05,all,C+F,0.83,0.759,0.889
+gemini-3-flash_sierra_2026-03-02,all,C+F,0.834,0.77,0.89
+gemini-3-pro_sierra_2026-03-02,all,C+F,0.867,0.805,0.918
+glm-5-2_sierra_2026-08-04,all,C+F,0.859,0.809,0.901
+glm-5-think_sierra_2026-03-02,all,C+F,0.917,0.85,0.964
+gpt-5-2-none_sierra_2026-02-26,all,C+F,0.875,0.797,0.937
+gpt-5-2_sierra_2026-02-26,all,C+F,0.848,0.786,0.903
+gpt-5-4_sierra_2026-03-25,all,C+F,0.865,0.804,0.913
+gpt-5-5_sierra_2026-05-05,all,C+F,0.881,0.825,0.928
+gpt-5-6-sol_sierra_2026-08-04,all,C+F,0.835,0.769,0.892
+grok-4-1-fast_sierra_2026-05-05,all,C+F,0.886,0.809,0.945
+grok-4-2_sierra_2026-05-05,all,C+F,0.936,0.898,0.965
+grok-4-5_sierra_2026-08-04,all,C+F,0.855,0.795,0.906
+grok-4-fast_sierra_2026-05-05,all,C+F,0.852,0.771,0.921
+inkling_sierra_2026-08-04,all,C+F,0.897,0.844,0.94
+kimi-k3_sierra_2026-08-04,all,C+F,0.855,0.797,0.903
+qwen3-8-max_sierra_2026-08-04,all,C+F,0.839,0.773,0.893
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,C+F,0.912,0.865,0.955
+MEAN OF MODELS,all,C+F,0.855,0.82,0.884
+claude-fable-5_sierra_2026-08-04,all,C+P,0.938,0.895,0.965
+claude-opus-4-5_sierra_2026-02-26,all,C+P,0.889,0.827,0.932
+claude-opus-4-6_sierra_2026-05-05,all,C+P,0.896,0.842,0.935
+claude-opus-4-7_sierra_2026-05-05,all,C+P,0.913,0.871,0.941
+claude-opus-4-8_sierra_2026-08-04,all,C+P,0.923,0.884,0.951
+claude-opus-5_sierra_2026-08-04,all,C+P,0.912,0.862,0.949
+claude-sonnet-4-5_sierra_2026-02-26,all,C+P,0.885,0.817,0.931
+gemini-2-5-pro_sierra_2026-05-05,all,C+P,0.894,0.843,0.933
+gemini-3-1-pro-preview_sierra_2026-05-05,all,C+P,0.865,0.796,0.916
+gemini-3-flash_sierra_2026-03-02,all,C+P,0.845,0.779,0.895
+gemini-3-pro_sierra_2026-03-02,all,C+P,0.878,0.808,0.925
+glm-5-2_sierra_2026-08-04,all,C+P,0.866,0.812,0.907
+glm-5-think_sierra_2026-03-02,all,C+P,0.973,0.938,0.993
+gpt-5-2-none_sierra_2026-02-26,all,C+P,0.925,0.872,0.962
+gpt-5-2_sierra_2026-02-26,all,C+P,0.905,0.85,0.943
+gpt-5-4_sierra_2026-03-25,all,C+P,0.918,0.872,0.95
+gpt-5-5_sierra_2026-05-05,all,C+P,0.943,0.908,0.967
+gpt-5-6-sol_sierra_2026-08-04,all,C+P,0.889,0.837,0.927
+grok-4-1-fast_sierra_2026-05-05,all,C+P,0.921,0.86,0.961
+grok-4-2_sierra_2026-05-05,all,C+P,0.935,0.891,0.966
+grok-4-5_sierra_2026-08-04,all,C+P,0.921,0.882,0.95
+grok-4-fast_sierra_2026-05-05,all,C+P,0.897,0.829,0.943
+inkling_sierra_2026-08-04,all,C+P,0.893,0.834,0.936
+kimi-k3_sierra_2026-08-04,all,C+P,0.879,0.824,0.918
+qwen3-8-max_sierra_2026-08-04,all,C+P,0.901,0.853,0.935
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,C+P,0.915,0.828,0.968
+MEAN OF MODELS,all,C+P,0.905,0.878,0.922
+claude-fable-5_sierra_2026-08-04,all,C+P+F,0.944,0.905,0.969
+claude-opus-4-5_sierra_2026-02-26,all,C+P+F,0.886,0.82,0.933
+claude-opus-4-6_sierra_2026-05-05,all,C+P+F,0.898,0.846,0.935
+claude-opus-4-7_sierra_2026-05-05,all,C+P+F,0.908,0.865,0.938
+claude-opus-4-8_sierra_2026-08-04,all,C+P+F,0.932,0.897,0.958
+claude-opus-5_sierra_2026-08-04,all,C+P+F,0.88,0.822,0.926
+claude-sonnet-4-5_sierra_2026-02-26,all,C+P+F,0.881,0.815,0.927
+gemini-2-5-pro_sierra_2026-05-05,all,C+P+F,0.886,0.814,0.939
+gemini-3-1-pro-preview_sierra_2026-05-05,all,C+P+F,0.861,0.793,0.914
+gemini-3-flash_sierra_2026-03-02,all,C+P+F,0.86,0.801,0.909
+gemini-3-pro_sierra_2026-03-02,all,C+P+F,0.865,0.794,0.921
+glm-5-2_sierra_2026-08-04,all,C+P+F,0.874,0.823,0.914
+glm-5-think_sierra_2026-03-02,all,C+P+F,0.969,0.928,0.992
+gpt-5-2-none_sierra_2026-02-26,all,C+P+F,0.936,0.889,0.971
+gpt-5-2_sierra_2026-02-26,all,C+P+F,0.897,0.836,0.94
+gpt-5-4_sierra_2026-03-25,all,C+P+F,0.916,0.868,0.948
+gpt-5-5_sierra_2026-05-05,all,C+P+F,0.938,0.902,0.964
+gpt-5-6-sol_sierra_2026-08-04,all,C+P+F,0.89,0.84,0.931
+grok-4-1-fast_sierra_2026-05-05,all,C+P+F,0.923,0.861,0.964
+grok-4-2_sierra_2026-05-05,all,C+P+F,0.955,0.923,0.978
+grok-4-5_sierra_2026-08-04,all,C+P+F,0.917,0.874,0.947
+grok-4-fast_sierra_2026-05-05,all,C+P+F,0.902,0.839,0.95
+inkling_sierra_2026-08-04,all,C+P+F,0.924,0.883,0.956
+kimi-k3_sierra_2026-08-04,all,C+P+F,0.885,0.835,0.924
+qwen3-8-max_sierra_2026-08-04,all,C+P+F,0.898,0.851,0.931
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,C+P+F,0.952,0.908,0.982
+MEAN OF MODELS,all,C+P+F,0.907,0.883,0.924
+claude-fable-5_sierra_2026-08-04,all,delta C+F - C,0.012,-0.031,0.058
+claude-fable-5_sierra_2026-08-04,all,delta C+P+F - C+P,0.006,-0.009,0.026
+claude-opus-4-5_sierra_2026-02-26,all,delta C+F - C,-0.062,-0.143,0.012
+claude-opus-4-5_sierra_2026-02-26,all,delta C+P+F - C+P,-0.003,-0.03,0.026
+claude-opus-4-6_sierra_2026-05-05,all,delta C+F - C,-0.019,-0.099,0.049
+claude-opus-4-6_sierra_2026-05-05,all,delta C+P+F - C+P,0.002,-0.018,0.022
+claude-opus-4-7_sierra_2026-05-05,all,delta C+F - C,-0.006,-0.032,0.018
+claude-opus-4-7_sierra_2026-05-05,all,delta C+P+F - C+P,-0.005,-0.015,0.007
+claude-opus-4-8_sierra_2026-08-04,all,delta C+F - C,0.002,-0.022,0.027
+claude-opus-4-8_sierra_2026-08-04,all,delta C+P+F - C+P,0.009,-0.007,0.028
+claude-opus-5_sierra_2026-08-04,all,delta C+F - C,-0.023,-0.059,0.012
+claude-opus-5_sierra_2026-08-04,all,delta C+P+F - C+P,-0.031,-0.05,-0.015
+claude-sonnet-4-5_sierra_2026-02-26,all,delta C+F - C,-0.057,-0.125,0.004
+claude-sonnet-4-5_sierra_2026-02-26,all,delta C+P+F - C+P,-0.005,-0.022,0.015
+gemini-2-5-pro_sierra_2026-05-05,all,delta C+F - C,-0.098,-0.185,-0.011
+gemini-2-5-pro_sierra_2026-05-05,all,delta C+P+F - C+P,-0.008,-0.059,0.036
+gemini-3-1-pro-preview_sierra_2026-05-05,all,delta C+F - C,0.008,-0.026,0.044
+gemini-3-1-pro-preview_sierra_2026-05-05,all,delta C+P+F - C+P,-0.004,-0.031,0.025
+gemini-3-flash_sierra_2026-03-02,all,delta C+F - C,0.003,-0.036,0.042
+gemini-3-flash_sierra_2026-03-02,all,delta C+P+F - C+P,0.015,-0.017,0.053
+gemini-3-pro_sierra_2026-03-02,all,delta C+F - C,0.007,-0.021,0.04
+gemini-3-pro_sierra_2026-03-02,all,delta C+P+F - C+P,-0.013,-0.045,0.02
+glm-5-2_sierra_2026-08-04,all,delta C+F - C,0.012,-0.017,0.043
+glm-5-2_sierra_2026-08-04,all,delta C+P+F - C+P,0.009,-0.014,0.033
+glm-5-think_sierra_2026-03-02,all,delta C+F - C,0.057,-0.026,0.171
+glm-5-think_sierra_2026-03-02,all,delta C+P+F - C+P,-0.004,-0.02,0.008
+gpt-5-2-none_sierra_2026-02-26,all,delta C+F - C,0.014,-0.047,0.078
+gpt-5-2-none_sierra_2026-02-26,all,delta C+P+F - C+P,0.011,-0.009,0.039
+gpt-5-2_sierra_2026-02-26,all,delta C+F - C,-0.019,-0.052,0.013
+gpt-5-2_sierra_2026-02-26,all,delta C+P+F - C+P,-0.009,-0.037,0.016
+gpt-5-4_sierra_2026-03-25,all,delta C+F - C,0.004,-0.036,0.042
+gpt-5-4_sierra_2026-03-25,all,delta C+P+F - C+P,-0.002,-0.022,0.017
+gpt-5-5_sierra_2026-05-05,all,delta C+F - C,-0.03,-0.059,-0.002
+gpt-5-5_sierra_2026-05-05,all,delta C+P+F - C+P,-0.005,-0.02,0.009
+gpt-5-6-sol_sierra_2026-08-04,all,delta C+F - C,-0.003,-0.063,0.062
+gpt-5-6-sol_sierra_2026-08-04,all,delta C+P+F - C+P,0.001,-0.02,0.024
+grok-4-1-fast_sierra_2026-05-05,all,delta C+F - C,-0.001,-0.057,0.048
+grok-4-1-fast_sierra_2026-05-05,all,delta C+P+F - C+P,0.002,-0.017,0.023
+grok-4-2_sierra_2026-05-05,all,delta C+F - C,0.029,-0.0,0.065
+grok-4-2_sierra_2026-05-05,all,delta C+P+F - C+P,0.02,0.006,0.04
+grok-4-5_sierra_2026-08-04,all,delta C+F - C,-0.041,-0.071,-0.014
+grok-4-5_sierra_2026-08-04,all,delta C+P+F - C+P,-0.004,-0.016,0.009
+grok-4-fast_sierra_2026-05-05,all,delta C+F - C,-0.023,-0.089,0.042
+grok-4-fast_sierra_2026-05-05,all,delta C+P+F - C+P,0.005,-0.019,0.036
+inkling_sierra_2026-08-04,all,delta C+F - C,0.028,-0.013,0.072
+inkling_sierra_2026-08-04,all,delta C+P+F - C+P,0.031,0.007,0.065
+kimi-k3_sierra_2026-08-04,all,delta C+F - C,0.003,-0.026,0.032
+kimi-k3_sierra_2026-08-04,all,delta C+P+F - C+P,0.007,-0.012,0.031
+qwen3-8-max_sierra_2026-08-04,all,delta C+F - C,-0.023,-0.056,0.008
+qwen3-8-max_sierra_2026-08-04,all,delta C+P+F - C+P,-0.003,-0.014,0.01
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,delta C+F - C,0.07,0.023,0.132
+qwen3.5-397b-a17b-think_sierra_2026-03-02,all,delta C+P+F - C+P,0.038,0.01,0.085
+MEAN OF MODELS,all,delta C+F - C,-0.006,-0.024,0.013
+MEAN OF MODELS,all,delta C+P+F - C+P,0.002,-0.003,0.01
