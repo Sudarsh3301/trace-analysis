@@ -1,0 +1,36 @@
+section,exposure,stratum,quantity,n,estimate,ci_low,ci_high,note
+raw,all_in_context,all,p_fail_incomplete,241,0.697,0.614,0.781,"n_incomplete=241, n_complete=147"
+raw,all_in_context,all,p_fail_complete,147,0.517,0.393,0.636,"n_incomplete=241, n_complete=147"
+raw,all_in_context,all,difference,388,0.18,0.048,0.32,"n_incomplete=241, n_complete=147"
+stratified,all_in_context,n_required 1-3,p_fail_incomplete,5,0.6,0.333,1.0,"n_incomplete=5, n_complete=43 (n<20)"
+stratified,all_in_context,n_required 1-3,p_fail_complete,43,0.372,0.156,0.6,"n_incomplete=5, n_complete=43 (n<20)"
+stratified,all_in_context,n_required 1-3,difference,48,0.228,-0.222,0.804,"n_incomplete=5, n_complete=43 (n<20)"
+stratified,all_in_context,n_required 4-8,p_fail_incomplete,63,0.476,0.31,0.647,"n_incomplete=63, n_complete=69"
+stratified,all_in_context,n_required 4-8,p_fail_complete,69,0.449,0.274,0.627,"n_incomplete=63, n_complete=69"
+stratified,all_in_context,n_required 4-8,difference,132,0.027,-0.188,0.234,"n_incomplete=63, n_complete=69"
+stratified,all_in_context,n_required 9+,p_fail_incomplete,173,0.78,0.68,0.867,"n_incomplete=173, n_complete=35"
+stratified,all_in_context,n_required 9+,p_fail_complete,35,0.829,0.667,0.945,"n_incomplete=173, n_complete=35"
+stratified,all_in_context,n_required 9+,difference,208,-0.048,-0.207,0.124,"n_incomplete=173, n_complete=35"
+paired,all_in_context,mixed tasks,n_tasks,41,41.0,,,
+paired,all_in_context,mixed tasks,mean_share_diff_pass_minus_fail,41,0.146,,,
+paired,all_in_context,mixed tasks,tasks_pass_higher,19,14.0,,,"tasks_fail_higher=5, ties=22; exact sign test p=0.0636 (task level)"
+paired,all_in_context,mixed tasks,discordant_pairs_pass_has,41,31.0,,,"reverse=10; exact sign test p=0.0015 (pairs share runs, so not independent)"
+raw,all_opened,all,p_fail_incomplete,358,0.648,0.573,0.728,"n_incomplete=358, n_complete=30"
+raw,all_opened,all,p_fail_complete,30,0.4,0.235,0.6,"n_incomplete=358, n_complete=30"
+raw,all_opened,all,difference,388,0.248,0.042,0.423,"n_incomplete=358, n_complete=30"
+stratified,all_opened,n_required 1-3,p_fail_incomplete,32,0.438,0.184,0.69,"n_incomplete=32, n_complete=16 (n<20)"
+stratified,all_opened,n_required 1-3,p_fail_complete,16,0.312,0.091,0.625,"n_incomplete=32, n_complete=16 (n<20)"
+stratified,all_opened,n_required 1-3,difference,48,0.125,-0.23,0.442,"n_incomplete=32, n_complete=16 (n<20)"
+stratified,all_opened,n_required 4-8,p_fail_incomplete,122,0.459,0.328,0.6,"n_incomplete=122, n_complete=10 (n<20)"
+stratified,all_opened,n_required 4-8,p_fail_complete,10,0.5,0.198,0.857,"n_incomplete=122, n_complete=10 (n<20)"
+stratified,all_opened,n_required 4-8,difference,132,-0.041,-0.37,0.281,"n_incomplete=122, n_complete=10 (n<20)"
+stratified,all_opened,n_required 9+,p_fail_incomplete,204,0.794,0.703,0.873,"n_incomplete=204, n_complete=4 (n<20)"
+stratified,all_opened,n_required 9+,p_fail_complete,4,0.5,0.0,1.0,"n_incomplete=204, n_complete=4 (n<20)"
+stratified,all_opened,n_required 9+,difference,208,0.294,-0.243,0.821,"n_incomplete=204, n_complete=4 (n<20)"
+paired,all_opened,mixed tasks,n_tasks,41,41.0,,,
+paired,all_opened,mixed tasks,mean_share_diff_pass_minus_fail,41,0.045,,,
+paired,all_opened,mixed tasks,tasks_pass_higher,9,5.0,,,"tasks_fail_higher=4, ties=32; exact sign test p=1.0000 (task level)"
+paired,all_opened,mixed tasks,discordant_pairs_pass_has,18,12.0,,,"reverse=6; exact sign test p=0.2379 (pairs share runs, so not independent)"
+timing,in_context,failed runs with flagged write,n_runs,151,151.0,,,
+timing,in_context,failed runs with unexpected write,missing_at_first_unexpected_write,102,0.735,,,75 of 102; 4 of them got the doc into context only later
+timing,in_context,failed runs with flagged write,missing_at_end_of_run,151,0.702,,,106 of 151

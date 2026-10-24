@@ -15,3 +15,6 @@ coverage
 # Next.js auto-generates these for AI agents
 AGENTS.md
 CLAUDE.md
+
+__pycache__/
+*.pyc

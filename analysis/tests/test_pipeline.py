@@ -78,3 +78,10 @@ def test_flag_rates(tmp_path):
     r = failure_type.flag_rates(ft).set_index("flag")
     assert r.loc["unexpected_write", "rate_fail"] == 1 and r.loc["unexpected_write", "rate_pass"] == 0
     assert r.loc["nonmatching_expected_actions", "rate_pass"] == 1
+
+
+def test_group_kfold_never_splits_a_task():
+    from analysis import predict
+    groups = [f"t{i // 4}" for i in range(40)]  # 10 tasks x 4 trials
+    for tr, te in predict.r1_folds(groups):
+        assert not {groups[i] for i in tr} & {groups[i] for i in te}
