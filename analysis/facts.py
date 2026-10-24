@@ -36,7 +36,8 @@ def run_facts(rows, required, k):
     by_name = Counter(r["tool_name"] for r in calls)
     ev = doc_events(sub)
     surf = sum(1 for d in required if ev.get(d, {}).get("surfaced") is not None)
-    read = sum(1 for d in required if ev.get(d, {}).get("read") is not None)
+    ctx = sum(1 for d in required if ev.get(d, {}).get("in_context") is not None)
+    opened = sum(1 for d in required if ev.get(d, {}).get("opened") is not None)
     n = len(required)
     lens = [len(r["text"]) for r in sub if r["role"] == "assistant" and r["text"]]
     return {
@@ -48,9 +49,11 @@ def run_facts(rows, required, k):
         "n_kb_dense": by_name["KB_search_dense"],
         "search_calls": by_name["shell"] + by_name["KB_search_bm25"] + by_name["KB_search_dense"],
         "write_calls": sum(v for t, v in by_name.items() if t in WRITE_TOOLS),
-        "required_docs_total": n, "required_surfaced": surf, "required_read": read,
+        "required_docs_total": n, "required_surfaced": surf, "required_in_context": ctx,
+        "required_opened": opened,
         "required_surfaced_frac": surf / n if n else np.nan,
-        "required_read_frac": read / n if n else np.nan,
+        "required_in_context_frac": ctx / n if n else np.nan,
+        "required_opened_frac": opened / n if n else np.nan,
         "repeated_identical_calls": sum(
             c - 1 for c in Counter((r["tool_name"], r["tool_args"]) for r in calls).values()),
         "human_transfer_called": any(is_transfer(r) for r in calls if r["role"] == "assistant"),

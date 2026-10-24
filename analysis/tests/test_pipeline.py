@@ -40,9 +40,10 @@ def test_facts_k_truncation(tmp_path):
     runs, msgs, _ = tables("fail.json", tmp_path)
     f = facts.compute(runs, msgs)
     k2, allk = fact(f, "2"), fact(f, "all")
-    # doc 032 is surfaced at idx 4, read only after user turn 2; gold doc is read by the KB result
-    assert (k2.required_surfaced, k2.required_read) == (2, 1)
-    assert (allk.required_surfaced, allk.required_read) == (2, 2)
+    # doc 032 is surfaced at idx 4 and opened only after user turn 2; the gold doc came in a
+    # KB result the agent never cites: in context, not opened
+    assert (k2.required_surfaced, k2.required_in_context, k2.required_opened) == (2, 1, 0)
+    assert (allk.required_surfaced, allk.required_in_context, allk.required_opened) == (2, 2, 1)
     assert k2.repeated_identical_calls == 1 and k2.write_calls == 2 and k2.search_calls == 3
     assert allk.n_tool_calls == 6 and not allk.human_transfer_called
 
@@ -57,12 +58,23 @@ def test_facts_no_leakage(tmp_path):
 def test_failure_flags(tmp_path):
     runs, msgs, checks = tables("fail.json", tmp_path)
     f = failure_type.compute(runs, msgs, checks).iloc[0]
-    assert f.missing_write and f.wrong_args and f.extra_write and f.required_doc_never_read
-    assert f.first_bad_write_idx == 8  # wrong-arg dispute call comes before the extra email change
+    assert f.expected_write_never_attempted and f.unexpected_write
+    assert f.required_doc_not_opened and f.required_doc_not_in_context
+    assert f.nonmatching_expected_actions == 2
+    assert f.first_unexpected_write_idx == 10  # the change_user_email call
 
 
-def test_passing_run_not_in_failures(tmp_path):
+def test_passing_run_with_nonmatching_action(tmp_path):
     runs, msgs, checks = tables("pass.json", tmp_path)
-    assert failure_type.compute(runs, msgs, checks).empty
-    f = fact(facts.compute(runs, msgs), "all")
-    assert (f.required_read, f.write_calls, f.n_tool_calls) == (1, 1, 2)
+    f = failure_type.compute(runs, msgs, checks).iloc[0]
+    assert f.reward == 1 and f.nonmatching_expected_actions == 1
+    assert not f.expected_write_never_attempted and not f.unexpected_write
+    a = fact(facts.compute(runs, msgs), "all")
+    assert (a.required_in_context, a.required_opened, a.write_calls, a.n_tool_calls) == (1, 0, 1, 2)
+
+
+def test_flag_rates(tmp_path):
+    ft = pd.concat([failure_type.compute(*tables(n, tmp_path)) for n in ("pass.json", "fail.json")])
+    r = failure_type.flag_rates(ft).set_index("flag")
+    assert r.loc["unexpected_write", "rate_fail"] == 1 and r.loc["unexpected_write", "rate_pass"] == 0
+    assert r.loc["nonmatching_expected_actions", "rate_pass"] == 1

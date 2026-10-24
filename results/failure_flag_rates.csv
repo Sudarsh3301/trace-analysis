@@ -1,0 +1,6 @@
+flag,rate_pass,rate_fail,difference,n_pass,n_fail
+expected_write_never_attempted,0.0,0.295,0.295,144,244
+nonmatching_expected_actions,0.59,0.98,0.389,144,244
+unexpected_write,0.188,0.418,0.231,144,244
+required_doc_not_opened,0.875,0.951,0.076,144,244
+required_doc_not_in_context,0.507,0.689,0.182,144,244
