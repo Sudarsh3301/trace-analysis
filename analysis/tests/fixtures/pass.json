@@ -1,0 +1,19 @@
+{
+  "tasks": [{"id": "task_p", "required_documents": ["./doc_credit_cards_silver_001.md"]}],
+  "simulations": [{
+    "id": "sim_pass", "task_id": "task_p", "trial": 0,
+    "reward_info": {"reward": 1.0, "action_checks": [
+      {"action": {"requestor": "user", "name": "apply_for_credit_card", "arguments": {"card_type": "Silver"}},
+       "action_match": true, "tool_type": "write"}]},
+    "messages": [
+      {"role": "assistant", "content": "Hello!", "tool_calls": null},
+      {"role": "user", "content": "I want a card.", "tool_calls": null},
+      {"role": "assistant", "content": null, "tool_calls": [
+        {"id": "kb_0", "name": "KB_search_dense", "arguments": {"query": "silver", "k": 3}, "requestor": "assistant"}]},
+      {"id": "kb_0", "role": "tool", "content": "1. Silver\n   ID: doc_credit_cards_silver_001\n   Score: 0.9\n   Content: body"},
+      {"role": "assistant", "content": "Silver fits you. Please apply.", "tool_calls": null},
+      {"role": "user", "content": "Applying.", "tool_calls": [
+        {"id": "u_1", "name": "apply_for_credit_card", "arguments": {"card_type": "Silver"}, "requestor": "user"}]},
+      {"id": "u_1", "role": "tool", "content": "applied"}
+    ]}]
+}

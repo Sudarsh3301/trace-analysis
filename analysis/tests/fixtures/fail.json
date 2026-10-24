@@ -1,0 +1,41 @@
+{
+  "tasks": [{"id": "task_f", "required_documents": [
+    "doc_bank_accounts_bank_accounts_(general)_032",
+    "./doc_credit_cards_gold_001.md",
+    "doc_zzz_003"]}],
+  "simulations": [{
+    "id": "sim_fail", "task_id": "task_f", "trial": 0,
+    "reward_info": {"reward": 0.0, "action_checks": [
+      {"action": {"requestor": "assistant", "name": "log_verification", "arguments": {"user_id": "u1"}},
+       "action_match": false, "tool_type": "write"},
+      {"action": {"requestor": "assistant", "name": "call_discoverable_agent_tool",
+                  "arguments": {"agent_tool_name": "file_dispute_1", "arguments": "{\"a\": 1}"}},
+       "action_match": false, "tool_type": "write"},
+      {"action": {"requestor": "assistant", "name": "unlock_discoverable_agent_tool",
+                  "arguments": {"agent_tool_name": "file_dispute_1"}},
+       "action_match": true, "tool_type": "generic"}]},
+    "messages": [
+      {"role": "assistant", "content": "Hello, how can I help?", "tool_calls": null},
+      {"role": "user", "content": "Hi, I want to dispute a charge.", "tool_calls": null},
+      {"role": "assistant", "content": "Let me look.", "tool_calls": [
+        {"id": "kb_0", "name": "KB_search_bm25", "arguments": {"query": "gold card", "k": 5}, "requestor": "assistant"},
+        {"id": "sh_1", "name": "shell", "arguments": {"command": "grep -ri dispute ."}, "requestor": "assistant"}]},
+      {"id": "kb_0", "role": "tool", "content": "1. Gold Card\n   ID: doc_credit_cards_gold_001\n   Score: 2.0\n   Content: body"},
+      {"id": "sh_1", "role": "tool", "content": "./doc_bank_accounts_bank_accounts__general__032.md:dispute rules"},
+      {"role": "assistant", "content": null, "tool_calls": [
+        {"id": "sh_2", "name": "shell", "arguments": {"command": "grep -ri dispute ."}, "requestor": "assistant"}]},
+      {"id": "sh_2", "role": "tool", "content": "./doc_bank_accounts_bank_accounts__general__032.md:dispute rules"},
+      {"role": "user", "content": "Please go ahead.", "tool_calls": null},
+      {"role": "assistant", "content": "Filing it now.", "tool_calls": [
+        {"id": "w_1", "name": "call_discoverable_agent_tool",
+         "arguments": {"agent_tool_name": "file_dispute_1", "arguments": "{\"a\": 2}"}, "requestor": "assistant"}]},
+      {"id": "w_1", "role": "tool", "content": "ok"},
+      {"role": "assistant", "content": null, "tool_calls": [
+        {"id": "w_2", "name": "change_user_email", "arguments": {"email": "x@y.z"}, "requestor": "assistant"}]},
+      {"id": "w_2", "role": "tool", "content": "done"},
+      {"role": "user", "content": "Thanks.", "tool_calls": null},
+      {"role": "assistant", "content": "One more check.", "tool_calls": [
+        {"id": "sh_3", "name": "shell", "arguments": {"command": "cat ./doc_bank_accounts_bank_accounts__general__032.md"}, "requestor": "assistant"}]},
+      {"id": "sh_3", "role": "tool", "content": "full body of the document"}
+    ]}]
+}
