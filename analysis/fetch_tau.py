@@ -2,7 +2,7 @@
 
 Keeps a submission only if it has banking_knowledge results, tau2_bench_version >= 1.0.1, text
 (or unstated) modality, submission_type "standard" and user_simulator "gpt-5.2". Writes the files to
-local/data/tau/<submission>/ (resumable) and the kept list to local/data/tau/kept.json.
+local/data/tau/<submission>/ (resumable) and the kept / skipped lists to local/data/tau/kept.json and skipped.json.
 
 Usage: python -m analysis.fetch_tau [--dry]     (--dry: list and filter only, no downloads)
 """
@@ -120,6 +120,8 @@ def main(dry):
         print("{:<62} {:<11} {:<40} {}".format(*row))
     if not dry:
         (OUT / "kept.json").write_text(json.dumps(kept, indent=1), encoding="utf-8")
+        skipped = {r[0]: r[2] for r in table if r[1] == "skipped"}
+        (OUT / "skipped.json").write_text(json.dumps(skipped, indent=1), encoding="utf-8")
     print(f"{sum(r[1].startswith('kept') for r in table)} kept, {sum(r[1] == 'skipped' for r in table)} skipped")
 
 

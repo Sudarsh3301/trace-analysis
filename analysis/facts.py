@@ -16,6 +16,22 @@ from .load import WRITE_TOOLS, sub_name
 KS = [2, 4, 6, None]
 
 
+def work_dirs(module):
+    """Work dirs picked by --submission <name> or --all; otherwise print usage and exit 0."""
+    a = sys.argv[1:]
+    if a == ["--all"]:
+        return sorted(d for d in Path("local/work").iterdir() if d.is_dir() and not d.name.startswith("_"))
+    if len(a) == 2 and a[0] == "--submission":
+        return [Path("local/work") / a[1]]
+    print(f"usage: python -m analysis.{module} --submission <name> | --all")
+    sys.exit(0)
+
+
+def out_csv(stem, d, many):
+    """results/<stem>.csv for one submission; <work dir>/<stem>.csv under --all."""
+    return (d if many else Path("results")) / f"{stem}.csv"
+
+
 def work_dir(arg=None):
     if arg:
         return Path(arg)

@@ -1,9 +1,10 @@
 """Run the pipeline on every kept submission and compare models.
 
-Usage: python -m analysis.multi_model [--analyze-only]
-Reads local/data/tau/kept.json (from analysis.fetch_tau). Writes per-model tables to
-local/work/<submission>/, pooled tables (with a `model` column) to local/work/_all/, and
-results/multi_model_per_model.csv, results/multi_model_r3.csv, results/multi_model_pooled.csv.
+Usage: python -m analysis.multi_model --set A|B [--analyze-only]
+Set A / B = local/data/tau/kept_A.json / kept_B.json (from analysis.data_check): A uses the re-scored
+labels (work dirs local/work-rescored/), B the original labels (local/work/). Writes per-model tables
+to the work dirs, pooled tables (with a `model` column) to <work>/_all/, and
+results/multi_model_{per_model,r3,pooled}_<set>.csv.
 """
 import json
 import sys
@@ -21,9 +22,7 @@ from .boot import auc_point_and_draws, ci, task_counts, task_sums
 from .c3_retrieval import EXPOSURES, exposure_frame, retrieval_rows, row
 from .predict import NON_FEATURES, baseline_rows, build as build_model, oof_r1, oof_r2, task_prior
 
-KEPT = Path("local/data/tau/kept.json")
-WORK = Path("local/work")
-ALL = WORK / "_all"
+WORK = ALL = None  # set in main() for the chosen set
 BASE_SETS = {("R1", "T"), ("R1", "T+F"), ("R1", "F"), ("R2", "P"), ("R2", "P+F"), ("R2", "F")}
 
 
@@ -192,21 +191,26 @@ def pooled_rows(kept):
     return pd.DataFrame(out)
 
 
-def main(analyze_only):
-    kept = json.loads(KEPT.read_text(encoding="utf-8"))
+def main(which, analyze_only):
+    global WORK, ALL
+    WORK = Path("local/work-rescored" if which == "A" else "local/work")
+    ALL = WORK / f"_all_{which}"
+    kept = json.loads(Path(f"local/data/tau/kept_{which}.json").read_text(encoding="utf-8"))
     if not analyze_only:
         build_all(kept)
     Path("results").mkdir(exist_ok=True)
     pm = per_model_rows(kept)
-    pm.to_csv("results/multi_model_per_model.csv", index=False)
+    pm.to_csv(f"results/multi_model_per_model_{which}.csv", index=False)
     r3 = r3_rows(kept)
-    r3.to_csv("results/multi_model_r3.csv", index=False)
+    r3.to_csv(f"results/multi_model_r3_{which}.csv", index=False)
     pooled = pooled_rows(kept)
-    pooled.to_csv("results/multi_model_pooled.csv", index=False)
+    pooled.to_csv(f"results/multi_model_pooled_{which}.csv", index=False)
     print(pm[pm.section == "runs"].pivot(index="model", columns="quantity", values="estimate").to_string())
     print(r3[r3.model == "MEAN OF MODELS"].to_string(index=False))
     print(pooled.to_string(index=False))
 
 
 if __name__ == "__main__":
-    main("--analyze-only" in sys.argv)
+    if sys.argv[1:2] != ["--set"] or sys.argv[2:3] not in (["A"], ["B"]):
+        sys.exit("usage: python -m analysis.multi_model --set A|B [--analyze-only]")
+    main(sys.argv[2], "--analyze-only" in sys.argv)

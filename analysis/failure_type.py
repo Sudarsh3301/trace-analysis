@@ -3,7 +3,8 @@
 Flags come from reward_info.action_checks. They do not decide the reward, so a flag only
 describes failures if its rate is clearly higher in failed runs (see results/failure_flag_rates.csv).
 
-Usage: python -m analysis.failure_type [work_dir]
+Usage: python -m analysis.failure_type --submission <name> | --all
+Writes failure_types.parquet in the work dir; results/failure_flag_rates.csv (--all: <work dir>/failure_flag_rates.csv).
 """
 import json
 import sys
@@ -12,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 from .docs import doc_events
-from .facts import work_dir
+from .facts import out_csv, work_dirs
 from .load import WRITE_TOOLS, sub_name
 
 FLAGS = ["expected_write_never_attempted", "nonmatching_expected_actions", "unexpected_write",
@@ -61,10 +62,10 @@ def flag_rates(df):
 
 
 if __name__ == "__main__":
-    d = work_dir(sys.argv[1] if len(sys.argv) > 1 else None)
-    df = compute(*(pd.read_parquet(d / f"{n}.parquet") for n in ("runs", "messages", "action_checks")))
-    df.to_parquet(d / "failure_types.parquet", index=False)
-    Path("results").mkdir(exist_ok=True)
-    rates = flag_rates(df)
-    rates.round(3).to_csv("results/failure_flag_rates.csv", index=False)
-    print(f"{len(df)} runs -> {d / 'failure_types.parquet'}\n{rates.round(3).to_string(index=False)}")
+    for d in work_dirs("failure_type"):
+        df = compute(*(pd.read_parquet(d / f"{n}.parquet") for n in ("runs", "messages", "action_checks")))
+        df.to_parquet(d / "failure_types.parquet", index=False)
+        Path("results").mkdir(exist_ok=True)
+        rates = flag_rates(df)
+        rates.round(3).to_csv(out_csv("failure_flag_rates", d, sys.argv[1] == "--all"), index=False)
+        print(f"{len(df)} runs -> {d / 'failure_types.parquet'}\n{rates.round(3).to_string(index=False)}")

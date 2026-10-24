@@ -1,6 +1,7 @@
 """Retrieval claim: do runs fail more when a required document never entered the context?
 
-Usage: python -m analysis.c3_retrieval [work_dir]   -> results/c3_retrieval.csv
+Usage: python -m analysis.c3_retrieval --submission <name> | --all
+Writes results/c3_retrieval.csv (--all: local/work/<name>/c3_retrieval.csv for each).
 """
 import sys
 from pathlib import Path
@@ -11,7 +12,7 @@ from scipy.stats import binomtest
 
 from .boot import ci, task_counts, task_sums
 from .docs import doc_events
-from .facts import work_dir
+from .facts import out_csv, work_dirs
 
 BINS = [("1-3", 1, 3), ("4-8", 4, 8), ("9+", 9, 10**6)]
 EXPOSURES = ("all_in_context", "all_opened")
@@ -112,16 +113,17 @@ def timing(df, rows_by_run):
                 len(sel), at_end / len(sel), note=f"{at_end} of {len(sel)}")]
 
 
-def main(work):
+def main(work, many=False):
     runs, facts, ft, msgs = (pd.read_parquet(work / f"{n}.parquet")
                              for n in ("runs", "facts", "failure_types", "messages"))
     df = exposure_frame(runs, facts, ft)
     rows_by_run = {r: g.sort_values("idx", kind="stable").to_dict("records") for r, g in msgs.groupby("run_id")}
     out = pd.DataFrame(retrieval_rows(df) + timing(df, rows_by_run))
     Path("results").mkdir(exist_ok=True)
-    out.to_csv("results/c3_retrieval.csv", index=False)
+    out.to_csv(out_csv("c3_retrieval", work, many), index=False)
     print(out.to_string(index=False))
 
 
 if __name__ == "__main__":
-    main(work_dir(sys.argv[1] if len(sys.argv) > 1 else None))
+    for d in work_dirs("c3_retrieval"):
+        main(d, sys.argv[1] == "--all")

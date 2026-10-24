@@ -6,11 +6,11 @@ Loads a tau-bench results JSON and derives per-run facts. No API keys or model c
 pip install -r requirements.txt
 python -m analysis.load <results.json>      # -> local/work/<input folder name>/
 python -m analysis.facts                    # -> facts.parquet (k = 2, 4, 6, all user turns)
-python -m analysis.failure_type             # -> failure_types.parquet (failed runs only)
+python -m analysis.failure_type --submission <name>   # or --all; -> failure_types.parquet
 pytest analysis/tests
 ```
 
-`facts` and `failure_type` take an optional work dir; without it they use the only dir under `local/work`.
+`facts` takes an optional work dir; without it it uses the only dir under `local/work`. `failure_type`, `predict` and `c3_retrieval` take `--submission <name>` or `--all`; with no argument they print usage and exit 0.
 
 Tables (in the work dir):
 

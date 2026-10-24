@@ -3,7 +3,8 @@
 R1 = new tasks (GroupKFold by task). R2 = new trial of a seen task (leave-one-trial-out, prior =
 mean reward of the task's other trials). AUROC CI: task-clustered bootstrap.
 
-Usage: python -m analysis.predict [work_dir]   -> results/baselines.csv
+Usage: python -m analysis.predict --submission <name> | --all
+Writes results/baselines.csv (--all: local/work/<name>/baselines.csv for each).
 """
 import sys
 from pathlib import Path
@@ -16,7 +17,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from .boot import auc_point_and_draws, ci
-from .facts import work_dir
+from .facts import out_csv, work_dirs
 
 AREAS = ["bank_accounts", "business_checking_accounts", "business_credit_cards",
          "business_savings_accounts", "checking_accounts", "credit_cards", "customer_support",
@@ -113,13 +114,14 @@ def baseline_rows(runs, T, facts, ks=("2", "4", "6", "all"), only=None):
     return rows
 
 
-def main(work):
+def main(work, many=False):
     runs, T, facts = build(work)
     out = pd.DataFrame(baseline_rows(runs, T, facts))
     Path("results").mkdir(exist_ok=True)
-    out.to_csv("results/baselines.csv", index=False)
+    out.to_csv(out_csv("baselines", work, many), index=False)
     print(out.to_string(index=False))
 
 
 if __name__ == "__main__":
-    main(work_dir(sys.argv[1] if len(sys.argv) > 1 else None))
+    for d in work_dirs("predict"):
+        main(d, sys.argv[1] == "--all")

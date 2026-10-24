@@ -1,0 +1,89 @@
+submission,status,reason,file,n_runs,n_expected,pass_rate_file,leaderboard_pass_1,gap,rescored,rescored_n_runs,rescored_pass_rate,rescored_gap,n_missing_before,n_missing,changed_runs,set_A,set_B
+A_EXAMPLE_new-model_example-org_2025-01-15,skipped,trajectory file example-model_banking_knowledge_gpt-5.2_4trials.json not found (HTTPError),,,,,,,,,,,,,,,
+A_EXAMPLE_voice-model_example-org_2026-03-11,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+ava-0_avartha_2026-10-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+ava-zero_avartha_2026-10-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+claude-3-7-sonnet_anthropic_2024-06-20,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+claude-fable-5_sierra_2026-08-04,kept,re-scored rate off leaderboard by -1.0,banking_knowledge_results.json,335.0,388.0,44.78,39.69,5.09,yes,388.0,38.66,-1.03,53.0,0.0,53.0,False,False
+claude-opus-4-1_anthropic_2025-01-15,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+claude-opus-4-5_sierra_2026-02-26,kept,,claude-opus-4-5_high_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,21.39,24.74,-3.35,yes,388.0,24.74,0.0,0.0,0.0,13.0,True,False
+claude-opus-4-6_sierra_2026-05-05,kept,,claude-opus-4-6_max_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,24.48,27.32,-2.84,yes,388.0,27.32,-0.0,0.0,0.0,11.0,True,False
+claude-opus-4-7_sierra_2026-05-05,kept,,banking_knowledge_results.json,388.0,388.0,40.21,40.21,0.0,yes,388.0,40.21,0.0,0.0,0.0,0.0,True,True
+claude-opus-4-8_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,39.69,39.69,0.0,yes,388.0,39.69,0.0,0.0,0.0,0.0,True,True
+claude-opus-4_anthropic_2025-05-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+claude-opus-5_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,48.71,48.71,0.0,yes,388.0,48.71,0.0,0.0,0.0,0.0,True,True
+claude-sonnet-4-5_anthropic_2025-10-02,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+claude-sonnet-4-5_sierra_2026-02-26,kept,,claude-sonnet-4-5_enabled_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,22.42,25.26,-2.84,yes,388.0,25.26,-0.0,0.0,0.0,11.0,True,False
+claude-sonnet-4_anthropic_2025-05-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+deepseek-v3.2_deepseek_2025-12-01,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+distyl-buttonagent_distyl_2026-03-25,skipped,tau2_bench_version 0.2.1-dev,,,,,,,,,,,,,,,
+gemini-2-5-pro_sierra_2026-05-05,kept,,gemini-2.5-pro_high_banking_knowledge_gpt-5.2_4trials.json,384.0,388.0,12.76,13.66,-0.9,yes,388.0,13.66,-0.0,4.0,0.0,8.0,True,False
+gemini-3-1-flash-live-preview-thinking-high-banking_google_2026-07-13,skipped,modality voice,,,,,,,,,,,,,,,
+gemini-3-1-flash-live-preview-thinking-high_google_2026-04-02,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gemini-3-1-flash-live-preview-thinking-minimal_google_2026-04-13,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gemini-3-1-pro-preview_sierra_2026-05-05,kept,,gemini-3.1-pro-preview_high_banking_knowledge_gpt-5.2_4trials.json,386.0,388.0,22.54,26.03,-3.49,yes,388.0,26.29,0.26,2.0,0.0,17.0,True,False
+gemini-3-8-live-extended-thinking_google_2026-10-07,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gemini-3-8-live-extended-thinking_google_2026-10-07_banking,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gemini-3-8-live-extended-thinking_google_2026-10-07_entity,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gemini-3-flash_sierra_2026-03-02,kept,cannot be re-scored,geminiflash-terminal.json,388.0,388.0,20.62,27.32,-6.7,not loadable by tau2 v1.0.1 (legacy message schema),,,,,,,False,False
+gemini-3-pro_google_2025-11-18,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gemini-3-pro_sierra_2026-03-02,kept,cannot be re-scored,geminipro-terminal.json,388.0,388.0,15.72,18.04,-2.32,not loadable by tau2 v1.0.1 (legacy message schema),,,,,,,False,False
+gemini-live-2.5-flash_sierra_2026-03-03,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+glm-5-2_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,37.11,37.11,0.0,yes,388.0,37.11,0.0,0.0,0.0,0.0,True,True
+glm-5-think_sierra_2026-03-02,kept,cannot be re-scored,glm-5_enabled_banking_knowledge_gpt-5.2_4trials.json,307.0,388.0,11.07,9.79,1.28,not loadable by tau2 v1.0.1 (legacy message schema),,,,,,,False,False
+glm5-2_zai_2026-06-21,skipped,tau2_bench_version 1.0.0,,,,,,,,,,,,,,,
+gpt-4-1-mini_openai_2024-06-20,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-4-1_openai_2024-06-20,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-5-2-none_sierra_2026-02-26,kept,,gpt-5.2_none_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,12.37,12.63,-0.26,yes,388.0,12.63,-0.0,0.0,0.0,1.0,True,True
+gpt-5-2_sierra_2026-02-26,kept,,gpt-5.2_high_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,24.74,32.22,-7.48,yes,388.0,32.22,-0.0,0.0,0.0,29.0,True,False
+gpt-5-4_sierra_2026-03-25,kept,,gpt-5.4_xhigh_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,30.67,39.43,-8.76,yes,388.0,39.43,0.0,0.0,0.0,34.0,True,False
+gpt-5-5_sierra_2026-05-05,kept,,banking_knowledge_results.json,386.0,388.0,44.56,44.59,-0.03,yes,388.0,44.33,-0.26,2.0,0.0,2.0,True,True
+gpt-5-6-sol_sierra_2026-08-04,kept,re-scored rate off leaderboard by -4.4,banking_knowledge_results.json,347.0,388.0,47.55,46.91,0.64,yes,388.0,42.53,-4.38,41.0,0.0,41.0,False,False
+gpt-5_sierra_2025-08-09,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-live-1-astra-high-banking_openai_2026-09-16,skipped,modality voice,,,,,,,,,,,,,,,
+gpt-live-1-diamond-alpha-user-sim-gpt-5-5_openai_2026-09-09,skipped,modality voice,,,,,,,,,,,,,,,
+gpt-live-1-diamond-alpha_openai_2026-09-09,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-live-1_openai_2026-10-07,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-live-1_openai_2026-10-20,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gpt-live-1_openai_2026-10-20_banking,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gpt-live-1_openai_2026-10-20_entity,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+gpt-realtime-1-0_openai_2026-04-13,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-realtime-1.5_sierra_2026-03-03,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-realtime-2-banking_openai_2026-07-12,skipped,modality voice,,,,,,,,,,,,,,,
+gpt-realtime-2-minimal_openai_2026-07-01,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-realtime-2_openai_2026-06-24,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+gpt-realtime-2_openai_2026-06-29,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-4-1-fast_sierra_2026-05-05,kept,,grok-4-1-fast_high_banking_knowledge_gpt-5.2_4trials.json,387.0,388.0,12.4,13.14,-0.74,yes,388.0,13.14,0.0,1.0,0.0,4.0,True,True
+grok-4-2_sierra_2026-05-05,kept,,grok-4-2_high_banking_knowledge_gpt-5.2_4trials.json,387.0,388.0,17.57,18.04,-0.47,yes,388.0,18.04,0.0,1.0,0.0,3.0,True,True
+grok-4-5_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,47.94,47.94,0.0,yes,388.0,47.94,0.0,0.0,0.0,0.0,True,True
+grok-4-fast_sierra_2026-05-05,kept,,grok-4-fast_high_banking_knowledge_gpt-5.2_4trials.json,388.0,388.0,14.18,15.72,-1.54,yes,388.0,15.72,0.0,0.0,0.0,6.0,True,False
+grok-voice-3-0_xai_2026-10-14,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-voice-think-fast-1-0-tool-mentor_pickle_2026-07-07,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-voice-think-fast-1-0_xai_2026-04-21,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-voice-think-fast-2-0_xai_2026-08-06,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-voice-think-fast-2-0_xai_2026-10-07,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+grok-voice-think-fast-2-0_xai_2026-10-20,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+grok-voice-think-fast-2-0_xai_2026-10-20_banking,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+grok-voice-think-fast-2-0_xai_2026-10-20_entity,skipped,no submission.json (HTTPError),,,,,,,,,,,,,,,
+inkling_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,25.0,25.0,0.0,yes,388.0,25.0,0.0,0.0,0.0,0.0,True,True
+kimi-k2_moonshot-ai_2025-07-11,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+kimi-k3_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,37.11,37.11,0.0,yes,388.0,37.11,0.0,0.0,0.0,0.0,True,True
+livekit-cascaded_livekit_2026-05-19,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+muse-spark-1-1_sierra_2026-08-04,skipped,trajectory file banking_knowledge_results.json not found (HTTPError),,,,,,,,,,,,,,,
+o3_openai_2025-01-15,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+o4-mini_openai_2024-06-20,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+phonic-1-user-sim-gpt-5-5_phonic_2026-10-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+phonic-1_phonic_2026-10-22,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+pine-voice-preview-user-sim-gpt-5-5_pineai_2026-08-17,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+pine-voice-preview-user-sim-v1-0_pineai_2026-08-17,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+qwen3-5-omni-plus-realtime_qwen_2026-08-06,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+qwen3-8-max_sierra_2026-08-04,kept,,banking_knowledge_results.json,388.0,388.0,55.15,55.15,0.0,yes,388.0,55.15,0.0,0.0,0.0,0.0,True,True
+qwen3-max_qwen_2024_09_23,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+qwen3-max_qwen_2025-10-30,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+qwen3-max_qwen_2026-01-23,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+qwen3.5-397b-a17b-think_sierra_2026-03-02,kept,cannot be re-scored,qwen3.5-397b-a17b_enabled_banking_knowledge_gpt-5.2_4trials.json,331.0,388.0,11.48,9.79,1.69,not loadable by tau2 v1.0.1 (legacy message schema),,,,,,,False,False
+raft-30b-a3b_neu_2026-04-29,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+salesforce-launa-v1_salesforce_2026-10-06,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+toolorchestra_nvidia_2025-12-02,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
+xai-realtime-banking_xai_2026-07-13,skipped,modality voice,,,,,,,,,,,,,,,
+xai-realtime_sierra_2026-03-03,skipped,no banking_knowledge results,,,,,,,,,,,,,,,
