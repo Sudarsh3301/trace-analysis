@@ -1,3 +1,4 @@
 method,n,n_pushback,precision,recall
 jev pushback (max of 4 Nouls >= 0.5),60,10,0.476,1.0
+jev pushback (max of 4 Nouls >= 0.8) [post-hoc threshold],60,10,0.909,1.0
 keyword baseline,60,10,0.571,0.8

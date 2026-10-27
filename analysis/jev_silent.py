@@ -204,8 +204,10 @@ def validate():
     lab = lab[lab.pushback.notna()]
     truth = lab.pushback.astype(int).values == 1
     rows = []
-    for name, pred in (("jev pushback (max of 4 Nouls >= 0.5)", lab[PUSHBACK].max(axis=1) >= 0.5),
-                       ("keyword baseline", lab.user.str.contains(KEYWORDS))):
+    jev = lab[PUSHBACK].max(axis=1)
+    methods = [(f"jev pushback (max of 4 Nouls >= {t})" + (" [post-hoc threshold]" if t != 0.5 else ""), jev >= t)
+               for t in THRESHOLDS]
+    for name, pred in (*methods, ("keyword baseline", lab.user.str.contains(KEYWORDS))):
         p, r = prf(pred.values, truth)
         rows.append({"method": name, "n": len(lab), "n_pushback": int(truth.sum()), "precision": round(p, 3), "recall": round(r, 3)})
     print(pd.DataFrame(rows).to_string(index=False))
