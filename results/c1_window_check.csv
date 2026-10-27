@@ -1,0 +1,9 @@
+threshold,measure,passed,failed,n_passed,n_failed,failed_minus_passed,ci_low,ci_high,messages_passed,messages_failed
+0.5,no pushback in first 1 user messages,0.789,0.679,719,826,-0.109,-0.243,0.024,,
+0.5,no pushback in first 2 user messages,0.694,0.628,653,807,-0.065,-0.204,0.068,,
+0.5,no pushback in first 3 user messages,0.476,0.582,399,349,0.105,-0.065,0.254,,
+0.5,pushback per user message before the decisive point,0.297,0.237,719,831,-0.06,-0.157,0.034,2249.0,2264.0
+0.8,no pushback in first 1 user messages,0.932,0.898,719,826,-0.034,-0.118,0.048,,
+0.8,no pushback in first 2 user messages,0.848,0.867,653,807,0.019,-0.077,0.116,,
+0.8,no pushback in first 3 user messages,0.702,0.802,399,349,0.101,-0.048,0.243,,
+0.8,pushback per user message before the decisive point,0.202,0.111,719,831,-0.091,-0.179,-0.008,2249.0,2264.0
