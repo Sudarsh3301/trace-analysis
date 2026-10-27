@@ -182,7 +182,8 @@ def prf(pred, truth):
 
 def validate():
     lab = pd.read_csv("local/work/pushback_handlabel.csv").merge(
-        pd.read_csv("local/work/pushback_handlabel_scores.csv"), on="sample_id")
+        pd.read_csv("local/work/pushback_handlabel_scores.csv").drop(columns=["pushback"], errors="ignore"),
+        on="sample_id")
     lab = lab[lab.pushback.notna()]
     truth = lab.pushback.astype(int).values == 1
     rows = []
