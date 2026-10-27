@@ -17,11 +17,15 @@ $1.50 in total).
 
 ## Findings
 
-| # | Finding | Key number | File |
-|---|---|---|---|
-| 1 | **The task predicts failure; the trace adds nothing on top.** | Other models' failure rate on the same task: AUROC **0.864** [0.827, 0.892]. Adding trace facts: −0.012 (all turns), −0.022 (first 2 turns). Adding Jev step judgments: −0.025. | `results/multi_model_r3_A.csv`, `results/c2_judgments.csv` |
-| 2 | **Within a task, getting the required documents into context goes with success.** | Failure risk −0.35 [−0.46, −0.23] when all required documents reached the context; 43 vs 21 tasks, sign test p = 0.008. | `results/multi_model_pooled_A.csv` |
-| 3 | **User pushback is not an early warning.** | Before the agent's decisive action, at least 57% of failed conversations show no pushback (83% at a stricter, post-hoc threshold); per user message, failed conversations show *less* pushback than successful ones (0.11 vs 0.20). | `results/c1_silent.csv`, `results/c1_window_check.csv` |
+TL;DR
+
+- Task difficulty predicts failure better than the agent's trace. Adding trace facts or step-level judgments does not improve failure prediction.
+
+- Getting the right documents into context is associated with success. Within the same task, conversations where all required documents reached the agent's context had a lower risk of failure.
+
+- User pushback is a weak early-warning signal. Most failed conversations show no pushback before the agent's decisive action.
+
+
 
 ### 1. The task comes first
 
