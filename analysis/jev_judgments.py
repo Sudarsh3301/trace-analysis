@@ -1,14 +1,14 @@
 """Part B: do Jev step judgments add to the cross-model task prior C? (claim C2)
 
-Usage: python -m analysis.jev_judgments --dry-run | --live --max-calls N [--sample N] | --analyze
-Runs: kimi-k3 and claude-opus-5, 60 each (30 pass, 30 fail, one run per task first), first 6 agent
-steps after the opening greeting (user turn >= 1), one request per step with the 8 JevScope
+Usage: python -m analysis.jev_judgments --dry-run | --live --max-calls N | --analyze
+Runs: every run of kimi-k3, claude-opus-5, gpt-5-5 and qwen3-8-max (set A labels), first 6 agent
+steps after the opening greeting (user turn >= 1), one request per step (rep 0) with the 8 JevScope
 questions (lib/jev/questions.ts, MIT). State follows lib/jev/build-state.ts: task, currentStep,
 recentHistory (8 events). `task` = the customer's first message; no ground truth is sent.
-Repeat check: 20 steps x 3 requests (rep 0 is the main request). Set A labels.
+Runs with no messages are dropped. The 3x repeat result (earlier 20-step check) is carried over
+from the existing results/c2_judgments.csv, not recomputed.
 """
 import json
-import random
 import sys
 from pathlib import Path
 
@@ -17,13 +17,13 @@ import pandas as pd
 
 from . import multi_model
 from .boot import auc_point_and_draws, ci
-from .jev import Jev, choice, clamp, noul, sample, summary
+from .jev import Jev, choice, clamp, noul, summary
 from .predict import NON_FEATURES, oof_r1
 
-MODELS = ["kimi-k3_sierra_2026-08-04", "claude-opus-5_sierra_2026-08-04"]
+MODELS = ["kimi-k3_sierra_2026-08-04", "claude-opus-5_sierra_2026-08-04",
+          "gpt-5-5_sierra_2026-05-05", "qwen3-8-max_sierra_2026-08-04"]
 WORK = Path("local/work-rescored")
 N_STEPS, HISTORY, KS = 6, 8, ("2", "4")
-SEED = 0
 
 PHASES = {
     "exploring": "The agent is gathering information or building an understanding of the problem: reading files, inspecting code, searching, or asking questions. It is not yet changing anything.",
@@ -67,26 +67,6 @@ QUESTIONS = {
         PHASES),
 }
 NOULS = [k for k in QUESTIONS if k != "phase"]
-
-
-def select_runs(runs, n_per_class=30, seed=SEED):
-    """30 pass + 30 fail; one run per task before any task repeats."""
-    rng = random.Random(seed)
-    keep = []
-    for reward in (1, 0):
-        by_task = {t: g.run_id.tolist() for t, g in runs[runs.reward == reward].groupby("task_id")}
-        for ids in by_task.values():
-            rng.shuffle(ids)
-        tasks, picked, rnd = sorted(by_task), [], 0
-        while len(picked) < n_per_class:
-            rng.shuffle(tasks)
-            new = [by_task[t][rnd] for t in tasks if len(by_task[t]) > rnd]
-            if not new:
-                break
-            picked += new[:n_per_class - len(picked)]
-            rnd += 1
-        keep += picked
-    return keep
 
 
 def events_of(rows):
@@ -147,26 +127,20 @@ def run_steps(rows):
 
 
 def build(models=MODELS):
-    """-> (sel, items): sel[model] = (runs, facts, {run_id: [(turn, state)]})."""
+    """-> sel[model] = (runs, facts, {run_id: [(turn, state)]}) for runs that have steps."""
     sel = {}
     for m in models:
         d = WORK / m
         runs, msgs = pd.read_parquet(d / "runs.parquet"), pd.read_parquet(d / "messages.parquet")
-        ids = select_runs(runs)
-        g = {rid: gr.sort_values("idx", kind="stable").to_dict("records") for rid, gr in msgs[msgs.run_id.isin(ids)].groupby("run_id")}
-        sel[m] = (runs[runs.run_id.isin(ids)].reset_index(drop=True), pd.read_parquet(d / "facts.parquet"),
-                  {rid: run_steps(g[rid]) for rid in ids})
+        steps = {rid: run_steps(gr.sort_values("idx", kind="stable").to_dict("records")) for rid, gr in msgs.groupby("run_id")}
+        steps = {rid: ss for rid, ss in steps.items() if ss}
+        sel[m] = (runs[runs.run_id.isin(steps)].reset_index(drop=True), pd.read_parquet(d / "facts.parquet"), steps)
     return sel
 
 
 def main_items(sel):
     return [(st, QUESTIONS, f"B:{m}:{rid}:{i}", 0) for m, (_, _, steps) in sel.items()
             for rid, ss in steps.items() for i, (_, st) in enumerate(ss)]
-
-
-def repeat_items(sel, n=20):
-    base = main_items(sel)
-    return [(st, q, tag, rep) for st, q, tag, _ in random.Random(SEED).sample(base, n) for rep in (1, 2)]
 
 
 def step_features(sel, j):
@@ -190,24 +164,20 @@ def j_matrix(steps_df, run_ids, k):
     return seen.reindex(run_ids).fillna(0).values.astype(float)
 
 
-def flip_rows(sel, j):
-    """Per question: share of repeated steps whose 3 answers do not agree (Noul side of 0.5; phase argmax)."""
-    base = main_items(sel)
-    steps = [it for it in random.Random(SEED).sample(base, 20)]
-    out = {q: [] for q in QUESTIONS}
-    for st, _, _, _ in steps:
-        ans = [j.peek(st, QUESTIONS, rep) for rep in (0, 1, 2)]
-        if not all(ans):
-            continue
-        for q in NOULS:
-            v = [a["nouls"][q] for a in ans]
-            out[q].append(len({x >= 0.5 for x in v}) > 1)
-        out["phase"].append(len({max(a["choices"]["phase"]["probabilities"].items(), key=lambda kv: kv[1])[0] for a in ans}) > 1)
-    return [{"section": "flip_rate", "model": "both", "k": "", "feature_set": q, "auroc": round(float(np.mean(v)), 3) if v else np.nan,
-             "ci_low": np.nan, "ci_high": np.nan, "n_steps": len(v)} for q, v in out.items()]
+SETS = ["C", "C+F", "C+J", "C+F+J", "J", "F", "C+J2"]
+DELTAS = [("C+J", "C"), ("C+F+J", "C+F"), ("C+F", "C"), ("C+J2", "C")]
+
+
+def j2_matrix(steps_df, run_ids, k):
+    """Overfitting check: only the max of `stuck` and of `prematureCompletion`."""
+    seen = steps_df[steps_df.turn <= int(k)].groupby("run_id")[["stuck", "prematureCompletion"]].max()
+    return seen.reindex(run_ids).fillna(0).values.astype(float)
 
 
 def analyze(sel, j):
+    out_path = Path("results/c2_judgments.csv")
+    old = pd.read_csv(out_path) if out_path.exists() else pd.DataFrame()
+    flips = old[old.section == "flip_rate"] if "section" in old else old
     allruns = pd.read_parquet(WORK / "_all_A" / "runs.parquet").reset_index(drop=True)
     allruns["C"] = multi_model.cross_model_prior(allruns)
     keys = np.unique(allruns.task_id)
@@ -219,26 +189,30 @@ def analyze(sel, j):
         for k in KS:
             f = facts[facts.k == k].set_index("run_id").loc[runs.run_id]
             F = f[[c for c in f.columns if c not in NON_FEATURES]].fillna(0).values.astype(float)
-            J = j_matrix(steps_df[steps_df.model == m], runs.run_id.values, k)
-            for s, X in {"C": C, "C+F": np.hstack([C, F]), "C+J": np.hstack([C, J]), "C+F+J": np.hstack([C, F, J])}.items():
+            sd = steps_df[steps_df.model == m]
+            J, J2 = j_matrix(sd, runs.run_id.values, k), j2_matrix(sd, runs.run_id.values, k)
+            Xs = {"C": C, "C+F": np.hstack([C, F]), "C+J": np.hstack([C, J]), "C+F+J": np.hstack([C, F, J]),
+                  "J": J, "F": F, "C+J2": np.hstack([C, J2])}
+            for s, X in Xs.items():
                 res[(m, k, s)] = auc_point_and_draws(y, oof_r1(X, y, tasks), tasks, keys=keys)
-    names = [*MODELS, "MEAN OF MODELS"]
     for k in KS:
-        for name in names:
-            ms = MODELS if name == "MEAN OF MODELS" else [name]
-            for s in ("C", "C+F", "C+J", "C+F+J"):
+        for name in [*sel, "MEAN OF MODELS"]:
+            ms = list(sel) if name == "MEAN OF MODELS" else [name]
+            n = sum(len(sel[m][0]) for m in ms)
+            for s in SETS:
                 pt, dr = np.mean([res[(m, k, s)][0] for m in ms]), np.mean([res[(m, k, s)][1] for m in ms], axis=0)
-                rows.append({"section": "auroc", "model": name, "k": k, "feature_set": s, "auroc": pt, "ci_low": ci(dr)[0], "ci_high": ci(dr)[1]})
-            for base, plus in (("C", "C+J"), ("C+F", "C+F+J"), ("C", "C+F")):
+                rows.append({"section": "auroc", "model": name, "k": k, "feature_set": s, "auroc": pt, "ci_low": ci(dr)[0],
+                             "ci_high": ci(dr)[1], "n_runs": n})
+            for plus, base in DELTAS:
                 pt = np.mean([res[(m, k, plus)][0] - res[(m, k, base)][0] for m in ms])
                 dr = np.mean([res[(m, k, plus)][1] - res[(m, k, base)][1] for m in ms], axis=0)
                 rows.append({"section": "delta", "model": name, "k": k, "feature_set": f"{plus} - {base}", "auroc": pt,
-                             "ci_low": ci(dr)[0], "ci_high": ci(dr)[1]})
-    out = pd.DataFrame(rows + flip_rows(sel, j))
-    out["auroc"] = out.auroc.astype(float).round(3)
+                             "ci_low": ci(dr)[0], "ci_high": ci(dr)[1], "n_runs": n})
+    out = pd.concat([pd.DataFrame(rows).round(3), flips], ignore_index=True)
     Path("results").mkdir(exist_ok=True)
-    out.round(3).to_csv("results/c2_judgments.csv", index=False)
-    print(f"{len(steps_df)} scored steps\n{out.to_string(index=False)}")
+    out.to_csv(out_path, index=False)
+    print(f"{len(steps_df)} scored steps")
+    print(out.to_string(index=False))
 
 
 def main(argv):
@@ -250,13 +224,12 @@ def main(argv):
     j = Jev(dry_run=mode == "--dry-run", max_calls=int(args.get("--max-calls", 0)))
     if mode == "--analyze":
         return analyze(sel, j)
-    main_, rep = main_items(sel), repeat_items(sel)
     uniq = {}
-    for it in main_ + rep:
-        uniq.setdefault((json.dumps(it[0], sort_keys=True), it[3]), it)
-    print(f"{len(main_)} steps, {len(rep)} repeat requests, {len(uniq)} unique payloads")
-    items = sample(main_ if "--sample" in args else list(uniq.values()), int(args["--sample"]) if "--sample" in args else None)
-    _, stopped = j.run_all(items, int(args.get("--workers", 4)))
+    for it in main_items(sel):
+        uniq.setdefault(json.dumps(it[0], sort_keys=True), it)
+    items = list(uniq.values())
+    print(f"{sum(len(r) for r, _, _ in sel.values())} runs, {len(items)} unique step payloads")
+    _, stopped = j.run_all(items, int(args.get("--workers", 8)))
     print(summary(j, len(items)) + (f"; {stopped} not run (budget)" if stopped else ""))
 
 
