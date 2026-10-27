@@ -1,0 +1,4 @@
+part,calls,ok,input_tokens,cost_usd,mean_latency_s,model
+step judgments,9283,9283,27012035,1.135,0.3,jev-1.14.0
+user-message checks,7877,7877,8761606,0.368,0.302,jev-1.14.0
+total,17160,17160,35773641,1.502,0.301,jev-1.14.0
