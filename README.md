@@ -1,4 +1,4 @@
-# Silent failures: what agent traces do and don't tell you
+# Agentic Failure Attribution: a study of what agent traces do and don't tell you
 
 **If you know which task an agent faced, you can predict whether it will fail better than with
 anything you can read in its trace.**
