@@ -21,6 +21,8 @@ from .jev import Jev, clamp, noul, sample, summary
 MODELS = ["kimi-k3_sierra_2026-08-04", "claude-opus-5_sierra_2026-08-04",
           "gpt-5-5_sierra_2026-05-05", "qwen3-8-max_sierra_2026-08-04"]
 WORK = Path("local/work-rescored")
+# 0.8 is a post-hoc sensitivity chosen on the validation sample, not a pre-set threshold
+THRESHOLDS = (0.5, 0.8)
 PUSHBACK = ["corrects", "repeats", "complains", "asksHuman"]
 KEYWORDS = re.compile(r"\bno\b|that'?s not|i said|human|agent", re.I)
 
@@ -109,16 +111,20 @@ def score_table(data, j):
     return df
 
 
-def share_ci(silent, tasks, keys):
+def share_draws(silent, tasks, keys):
     n = np.ones(len(silent))
     s_t, n_t = task_sums(tasks, silent, n, keys=keys)
     _, _, counts = task_counts(tasks, keys=keys)
     with np.errstate(invalid="ignore", divide="ignore"):
-        draws = (counts @ s_t) / (counts @ n_t)
-    return silent.mean(), *ci(draws)
+        return silent.mean(), (counts @ s_t) / (counts @ n_t)
 
 
-def analyze(data, j):
+def share_ci(silent, tasks, keys):
+    est, draws = share_draws(silent, tasks, keys)
+    return est, *ci(draws)
+
+
+def analyze(data, j, thresholds=THRESHOLDS):
     sc = score_table(data, j)
     keys = np.unique(np.concatenate([t["runs"].task_id.values for t in data.values()]))
     runs = []
@@ -136,8 +142,9 @@ def analyze(data, j):
             u = s[s.run_id == r.run_id]
             f = ft.loc[r.run_id]
             runs.append({"model": m, "run_id": r.run_id, "task_id": r.task_id, "reward": r.reward, "kind": kind,
-                         "n_user_scored": len(u), "silent": int(not (u[u.idx < d].pushback >= 0.5).any()),
-                         "silent_whole": int(not (u.pushback >= 0.5).any()),
+                         "n_user_scored": len(u),
+                         **{f"{col}_{t}": int(not (x.pushback >= t).any()) for t in thresholds
+                            for col, x in (("silent", u[u.idx < d]), ("silent_whole", u))},
                          **{c: bool(f[c]) for c in FLAGS}})
     df = pd.DataFrame(runs)
     groups = [("passed", lambda d: d.reward == 1), ("failed", lambda d: d.reward == 0)]
@@ -145,17 +152,27 @@ def analyze(data, j):
     groups += [(f"failed & decisive={k}", lambda d, k=k: (d.reward == 0) & (d.kind == k))
                for k in ("unexpected_write", "wrong_write", "end_of_run")]
     out = []
-    for name in ["ALL", *data]:
-        d0 = df if name == "ALL" else df[df.model == name]
-        for g, f in groups:
-            d = d0[f(d0)]
-            if len(d):
-                row = {"model": name, "group": g, "n_runs": len(d)}
-                for col, label in (("silent", "before_decisive"), ("silent_whole", "whole_run")):
-                    est, lo, hi = share_ci(d[col].values.astype(float), d.task_id.values, keys)
-                    row |= {f"share_no_pushback_{label}": round(est, 3), f"ci_low_{label}": round(lo, 3),
-                            f"ci_high_{label}": round(hi, 3)}
-                out.append(row)
+    for t in thresholds:
+        for name in ["ALL", *data]:
+            d0 = df if name == "ALL" else df[df.model == name]
+            for g, f in groups:
+                d = d0[f(d0)]
+                if len(d):
+                    row = {"threshold": t, "model": name, "group": g, "n_runs": len(d)}
+                    for col, label in ((f"silent_{t}", "before_decisive"), (f"silent_whole_{t}", "whole_run")):
+                        est, lo, hi = share_ci(d[col].values.astype(float), d.task_id.values, keys)
+                        row |= {f"share_no_pushback_{label}": round(est, 3), f"ci_low_{label}": round(lo, 3),
+                                f"ci_high_{label}": round(hi, 3)}
+                    out.append(row)
+            # equally silent? failed minus passed, same task resamples
+            row = {"threshold": t, "model": name, "group": "failed minus passed", "n_runs": len(d0)}
+            for col, label in ((f"silent_{t}", "before_decisive"), (f"silent_whole_{t}", "whole_run")):
+                (pf, df_), (pp, dp) = (share_draws(d0[d0.reward == r][col].values.astype(float),
+                                                   d0[d0.reward == r].task_id.values, keys) for r in (0, 1))
+                lo, hi = ci(df_ - dp)
+                row |= {f"share_no_pushback_{label}": round(pf - pp, 3), f"ci_low_{label}": round(lo, 3),
+                        f"ci_high_{label}": round(hi, 3)}
+            out.append(row)
     res = pd.DataFrame(out)
     Path("results").mkdir(exist_ok=True)
     res.to_csv("results/c1_silent.csv", index=False)
