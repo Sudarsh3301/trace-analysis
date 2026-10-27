@@ -1,8 +1,5 @@
 # Silent failures: what agent traces do and don't tell you
 
-> Built on [JevScope](https://github.com/KaushikKC/JevScope) (MIT). The original JevScope README is in
-> [docs/jevscope-upstream.md](docs/jevscope-upstream.md).
-
 **If you know which task an agent faced, you can predict whether it will fail better than with
 anything you can read in its trace.**
 
@@ -12,6 +9,11 @@ public [τ-bench](https://github.com/sierra-research/tau2-bench) banking-support
 **20 models, 7,760 conversations, 97 tasks**, with labels re-scored by the benchmark's own
 grading code. Jev judgments come from [TypeSafe Jev](https://docs.typesafe.ai) (17,160 calls,
 $1.50 in total).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/overview-dark.png">
+  <img alt="Study design: three trace signals and the task prior, each tested against pass/fail outcomes" src="docs/figures/overview-light.png">
+</picture>
 
 ## Findings
 
@@ -29,6 +31,11 @@ Task identity matters far more than model identity: other models' failure rate a
 AUROC 0.838 [0.795, 0.867] pooled over all runs, the model's own failure rate gives 0.667
 [0.639, 0.697]. 13 of the 97 tasks fail in every run of every model; none passes in every run.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/task-heatmap-dark.png">
+  <img alt="Heatmap of pass rate per model and task; tasks sorted by difficulty show clear vertical bands" src="docs/figures/task-heatmap-light.png">
+</picture>
+
 Nothing from the trace improves on this prior:
 
 | Added to the task prior | First 2 user turns | All turns |
@@ -42,6 +49,11 @@ On their own, both kinds of trace signal carry some information — Jev judgment
 information the task already gives you. (Brackets: 95% intervals from a bootstrap that
 resamples tasks.)
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/auroc-dark.png">
+  <img alt="AUROC with 95% intervals: the task prior alone is highest; adding trace facts or Jev judgments does not raise it" src="docs/figures/auroc-light.png">
+</picture>
+
 ### 2. Retrieval matters within a task
 
 Raw comparisons mislead: tasks that need many documents are both harder and less often fully
@@ -51,6 +63,11 @@ less often in **21** (20 ties; exact sign test **p = 0.008**). The Mantel–Haen
 difference in failure, all-in-context minus not, is **−0.351** [−0.464, −0.232] in mixed
 model–task strata (−0.156 [−0.217, −0.103] over all strata). The stricter "deliberately
 opened" measure points the same way but is weaker (23 vs 14 tasks, p = 0.19).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/retrieval-dark.png">
+  <img alt="Mantel-Haenszel risk differences: all required documents in context goes with lower failure risk" src="docs/figures/retrieval-light.png">
+</picture>
 
 This is an association. Runs that retrieve well may also be runs where the agent understood the
 request; only a run with the correct documents supplied would show cause.
@@ -77,6 +94,11 @@ them looking silent; comparing on equal footing:
   (all intervals include 0).
 - **Over the whole conversation** (threshold 0.8): 57% of failed and 61% of passed runs show no
   pushback (difference −0.032 [−0.148, +0.090]).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/pushback-dark.png">
+  <img alt="Pushback per user message before the decisive point: lower in failed runs than in passed runs" src="docs/figures/pushback-light.png">
+</picture>
 
 So pushback does not mark the conversations that are going to fail, and per message it is, if
 anything, more common in ones that succeed — consistent with users steering agents back on
@@ -179,6 +201,7 @@ python -m analysis.jev_silent --dry-run           # then --live --max-calls N, t
 python -m analysis.jev_judgments --dry-run        # then --live --max-calls N, then --analyze
 python -m analysis.jev_silent --validate          # needs local/work/pushback_handlabel.csv
 python -m analysis.c1_window                      # cache only
+python -m analysis.figures                        # README figures -> docs/figures/
 pytest analysis/tests
 ```
 
@@ -189,13 +212,14 @@ Jev usage per part (calls, tokens, cost, latency): `results/jev_usage.csv`.
 ```
 analysis/        loaders, facts, re-scoring, prediction, retrieval and Jev scripts, tests
 results/         every table quoted above
-docs/            upstream JevScope README and screenshots
+docs/            README figures (docs/figures/), upstream JevScope README and screenshots
 app/ lib/ ...    upstream JevScope (unchanged)
 ```
 
 ## Credits and license
 
-- [JevScope](https://github.com/KaushikKC/JevScope) — semantic trace observability with Jev (MIT).
+- Built on [JevScope](https://github.com/KaushikKC/JevScope) — semantic trace observability with Jev (MIT).
+  The original JevScope README is in [docs/jevscope-upstream.md](docs/jevscope-upstream.md).
 - [τ-bench / tau2-bench](https://github.com/sierra-research/tau2-bench) — benchmark, tasks,
   trajectories and grading code (Sierra, MIT).
 - [TypeSafe Jev](https://docs.typesafe.ai) — typed judgments with probabilities.
