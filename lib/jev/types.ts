@@ -5,7 +5,7 @@
  *   - prediction:   a probability Jev returned. Never a label, never ground truth.
  *   - confidence:   how concentrated a Choice distribution is. Not correctness.
  *   - label:        an externally supplied expectation. Only these justify metrics.
- *   - derived:      anything JevScope computed from the above (drift, F1, ...).
+ *   - derived:      anything the app computed from the above (drift, F1, ...).
  */
 
 export const NOUL_DIMENSIONS = [

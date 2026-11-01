@@ -2,112 +2,77 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Beaker,
-  FlaskConical,
-  LayoutDashboard,
-  ListTree,
-  Settings,
-} from "lucide-react";
+import { BookOpen, Code, Database, FileSearch, Grid3x3, House, MessageSquareWarning } from "lucide-react";
 
+import { DATASET_URL, REPO_URL } from "@/lib/study";
 import { cn } from "@/lib/ui";
-
-import type { Theme } from "@/lib/theme";
 
 import { ThemeToggle } from "./theme-toggle";
 
-const LINKS = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/runs", label: "Runs", icon: ListTree },
-  { href: "/decision-lab", label: "Decision Lab", icon: FlaskConical },
-  { href: "/evaluations", label: "Evaluations", icon: Beaker },
-  { href: "/settings", label: "Settings", icon: Settings },
+const GROUPS = [
+  { label: "Result", links: [{ href: "/", label: "Overview", icon: House }] },
+  {
+    label: "Evidence",
+    links: [
+      { href: "/task-prior", label: "The task comes first", icon: Grid3x3 },
+      { href: "/retrieval", label: "Retrieval within a task", icon: FileSearch },
+      { href: "/pushback", label: "Pushback and the judge", icon: MessageSquareWarning },
+    ],
+  },
+  { label: "Rigor", links: [{ href: "/method", label: "Method and limits", icon: BookOpen }] },
 ];
 
-export function AppNav({
-  configured,
-  theme,
-}: {
-  configured: boolean;
-  /** Undefined when no choice is stored: the OS preference is in effect. */
-  theme?: Theme;
-}) {
-  const pathname = usePathname();
+export function AppNav() {
+  const pathname = usePathname().replace(/\/$/, "") || "/";
 
   return (
-    <nav className="sticky top-0 flex h-screen w-[208px] shrink-0 flex-col border-r border-border bg-surface-1">
-      <div className="px-4 py-4">
-        <div className="flex items-center gap-2">
-          <Link href="/dashboard" className="flex min-w-0 items-center gap-2">
-            <Sigil />
-            <span className="text-[15px] font-semibold tracking-tight">JevScope</span>
-          </Link>
-          <span className="ml-auto">
-            <ThemeToggle current={theme} />
-          </span>
-        </div>
-        <p className="mt-1 text-[11px] leading-snug text-text-muted">
-          Semantic observability
-        </p>
+    <nav className="sticky top-0 z-10 flex flex-col border-b border-border bg-surface-1 md:h-screen md:w-[220px] md:shrink-0 md:border-r md:border-b-0">
+      <div className="flex items-start gap-2 px-4 py-3 md:py-4">
+        <Link href="/" className="min-w-0">
+          <div className="text-[13.5px] leading-tight font-semibold tracking-tight">Agentic Failure Attribution</div>
+          <div className="mt-0.5 text-[11px] leading-snug text-text-muted">What agent traces do and don&apos;t tell you</div>
+        </Link>
+        <span className="ml-auto">
+          <ThemeToggle />
+        </span>
       </div>
 
-      <ul className="flex flex-1 flex-col gap-0.5 px-2">
-        {LINKS.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname.startsWith(`${href}/`);
-          return (
-            <li key={href}>
-              <Link
-                href={href}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] transition-colors",
-                  active
-                    ? "bg-surface-3 text-text-primary"
-                    : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
-                )}
-              >
-                <Icon size={15} strokeWidth={1.75} className="shrink-0" />
-                {label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="flex gap-1 overflow-x-auto px-2 pb-2 md:block md:flex-1 md:overflow-visible md:pb-0">
+        {GROUPS.map((g) => (
+          <div key={g.label} className="contents md:block">
+            <div className="label-caps hidden px-2 pt-4 pb-1 md:block">{g.label}</div>
+            <ul className="contents md:flex md:flex-col md:gap-0.5">
+              {g.links.map(({ href, label, icon: Icon }) => {
+                const active = pathname === href;
+                return (
+                  <li key={href} className="shrink-0">
+                    <Link
+                      href={href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] whitespace-nowrap transition-colors",
+                        active ? "bg-surface-3 text-text-primary" : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+                      )}
+                    >
+                      <Icon size={15} strokeWidth={1.75} className="shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
 
-      <div className="border-t border-border px-4 py-3">
-        <div className="label-caps">Evaluator</div>
-        <div className="mt-1.5 flex items-center gap-2">
-          <span
-            aria-hidden
-            className="size-1.5 rounded-full"
-            style={{
-              background: configured
-                ? "var(--color-status-good)"
-                : "var(--color-status-warning)",
-            }}
-          />
-          <span className="text-[12px] text-text-secondary">
-            {configured ? "Jev connected" : "Mock mode"}
-          </span>
-        </div>
-        {!configured && (
-          <p className="mt-1.5 text-[11px] leading-snug text-text-muted">
-            No API key. Judgments are simulated and labelled as such.
-          </p>
-        )}
+      <div className="hidden space-y-1.5 border-t border-border px-4 py-3 text-[12px] md:block">
+        <a href={REPO_URL} className="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+          <Code size={14} strokeWidth={1.75} /> Code on GitHub
+        </a>
+        <a href={DATASET_URL} className="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+          <Database size={14} strokeWidth={1.75} /> Data on Hugging Face
+        </a>
       </div>
     </nav>
-  );
-}
-
-/** A small mark: four stacked signal bars, which is what the product shows. */
-function Sigil() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden className="shrink-0">
-      <rect x="1" y="2" width="16" height="2.5" rx="1.25" fill="var(--color-series-1)" />
-      <rect x="1" y="6" width="11" height="2.5" rx="1.25" fill="var(--color-series-2)" />
-      <rect x="1" y="10" width="6" height="2.5" rx="1.25" fill="var(--color-series-3)" />
-      <rect x="1" y="14" width="13" height="2.5" rx="1.25" fill="var(--color-series-4)" />
-    </svg>
   );
 }

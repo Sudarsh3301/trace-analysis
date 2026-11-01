@@ -2,8 +2,8 @@
 
 Usage: python -m analysis.jev_judgments --dry-run | --live --max-calls N | --analyze
 Runs: every run of kimi-k3, claude-opus-5, gpt-5-5 and qwen3-8-max (set A labels), first 6 agent
-steps after the opening greeting (user turn >= 1), one request per step (rep 0) with the 8 JevScope
-questions (lib/jev/questions.ts, MIT). State follows lib/jev/build-state.ts: task, currentStep,
+steps after the opening greeting (user turn >= 1), one request per step (rep 0) with the 8 step
+questions (from JevScope, MIT). State follows JevScope's build-state: task, currentStep,
 recentHistory (8 events). `task` = the customer's first message; no ground truth is sent.
 Runs with no messages are dropped. The 3x repeat result (earlier 20-step check) is carried over
 from the existing results/c2_judgments.csv, not recomputed.

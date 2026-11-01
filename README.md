@@ -1,5 +1,7 @@
 # Agentic Failure Attribution: a study of what agent traces do and don't tell you
 
+**Interactive site: [sudarsh3301.github.io/trace-analysis](https://sudarsh3301.github.io/trace-analysis/)** · conversations with Jev annotations: [Hugging Face dataset](https://huggingface.co/datasets/JoyboyXoXo/agentic-failure-attribution-traces)
+
 **If you know which task an agent faced, you can predict whether it will fail better than with
 anything you can read in its trace.**
 
@@ -62,11 +64,11 @@ resamples tasks.)
 
 Raw comparisons mislead: tasks that need many documents are both harder and less often fully
 retrieved. Comparing runs **of the same task and model** removes that. In 84 tasks with mixed
-outcomes, passing runs had all required documents in context more often in **43** tasks and
-less often in **21** (20 ties; exact sign test **p = 0.008**). The Mantel–Haenszel risk
+outcomes, passing runs had all required documents in context more often in **42** tasks and
+less often in **18** (24 ties; exact sign test **p = 0.003**). The Mantel–Haenszel risk
 difference in failure, all-in-context minus not, is **−0.351** [−0.464, −0.232] in mixed
 model–task strata (−0.156 [−0.217, −0.103] over all strata). The stricter "deliberately
-opened" measure points the same way but is weaker (23 vs 14 tasks, p = 0.19).
+opened" measure points the same way but is weaker (23 vs 13 tasks, p = 0.13).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/retrieval-dark.png">
@@ -150,7 +152,7 @@ as often as failing ones before the mistake happens.
   counts, search vs write calls, required documents *surfaced* (ID seen), *in context* (body
   entered the context) and *opened* (deliberately read), repeated identical calls, transfers to a
   human, message lengths. Facts at k use only messages up to turn k (tested).
-- **Step judgments (Jev 1.14):** JevScope's 8 questions — task alignment, progress, repetition,
+- **Step judgments (Jev 1.14):** JevScope's 8 step questions — task alignment, progress, repetition,
   stuck, needs verification, premature completion, unexpected direction, phase — on the first
   6 agent steps; the task given to Jev is the customer's first message (no ground truth).
 - **User-message checks (Jev 1.14):** one request per user message with the previous agent and
@@ -206,6 +208,8 @@ python -m analysis.jev_judgments --dry-run        # then --live --max-calls N, t
 python -m analysis.jev_silent --validate          # needs local/work/pushback_handlabel.csv
 python -m analysis.c1_window                      # cache only
 python -m analysis.figures                        # README figures -> docs/figures/
+python -m analysis.export_site                    # site data -> public/data/, conversations -> local/site-data/
+npm ci && npm run build                           # static site -> out/ (deployed by .github/workflows/pages.yml)
 pytest analysis/tests
 ```
 
@@ -217,12 +221,13 @@ Jev usage per part (calls, tokens, cost, latency): `results/jev_usage.csv`.
 analysis/        loaders, facts, re-scoring, prediction, retrieval and Jev scripts, tests
 results/         every table quoted above
 docs/            README figures (docs/figures/), upstream JevScope README and screenshots
-app/ lib/ ...    upstream JevScope (unchanged)
+app/ lib/ ...    the interactive site: a static Next.js export, data in public/data/
 ```
 
 ## Credits and license
 
-- Built on [JevScope](https://github.com/KaushikKC/JevScope) — semantic trace observability with Jev (MIT).
+- Started from [JevScope](https://github.com/KaushikKC/JevScope) — semantic trace observability with Jev (MIT);
+  the site's visual design, the step-judgment questions and a few components come from it.
   The original JevScope README is in [docs/jevscope-upstream.md](docs/jevscope-upstream.md).
 - [τ-bench / tau2-bench](https://github.com/sierra-research/tau2-bench) — benchmark, tasks,
   trajectories and grading code (Sierra, MIT).

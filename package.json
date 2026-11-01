@@ -1,44 +1,31 @@
 {
-  "name": "jevscope",
+  "name": "agentic-failure-attribution",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "preview": "npx serve out",
     "typecheck": "tsc --noEmit",
-    "db:push": "drizzle-kit push",
-    "db:generate": "drizzle-kit generate",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:integration": "vitest run --config vitest.integration.config.mts"
+    "test:watch": "vitest"
   },
   "dependencies": {
-    "@typesafe-ai/sdk": "^0.6.0",
-    "better-sqlite3": "^12.11.1",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.47.0",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "recharts": "^3.10.1",
-    "tailwind-merge": "^3.7.0",
-    "zod": "^4.6.5"
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.6.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "drizzle-kit": "^0.31.10",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
-    "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vitest": "^4.1.11"
   }
