@@ -150,7 +150,8 @@ def pooled_rows(kept):
                            "n_exposed": g[exp].sum(), "fail_exposed": (g[exp] & (g.fail == 1)).sum()})
             if g.fail.nunique() == 2:
                 diffs.setdefault(t, []).append(g[g.fail == 0][exp].mean() - g[g.fail == 1][exp].mean())
-        per_task = {t: np.mean(v) for t, v in diffs.items()}
+        # rounded: a task whose units cancel exactly (e.g. +2/3, 0, -2/3) must count as a tie, not as float noise
+        per_task = {t: round(float(np.mean(v)), 9) for t, v in diffs.items()}
         pos, neg = sum(v > 0 for v in per_task.values()), sum(v < 0 for v in per_task.values())
         p = binomtest(pos, pos + neg).pvalue
         prow(f"3.3 {exp}", "mixed (model,task) units", sum(len(v) for v in diffs.values()),
