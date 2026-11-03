@@ -6,26 +6,26 @@ import { kOf, MEAN, type AurocRow, type StudyModel } from "@/lib/study";
 import { cn, fmtDelta } from "@/lib/ui";
 
 const LABELS: Record<string, string> = {
-  C: "Task prior: other models' failure rate on the task",
-  "C+P": "Task prior + this model's other trials",
-  "C+F": "Task prior + trace facts",
-  "C+P+F": "Task prior + own trials + trace facts",
-  "C+J": "Task prior + Jev step judgments",
-  "C+J2": "Task prior + Jev, 2 features (max stuck, max premature)",
-  "C+F+J": "Task prior + trace facts + Jev",
+  C: "Task difficulty: other models' failure rate on the task",
+  "C+P": "Task difficulty + this model's other trials",
+  "C+F": "Task difficulty + trace facts",
+  "C+P+F": "Task difficulty + own trials + trace facts",
+  "C+J": "Task difficulty + Jev step judgments",
+  "C+J2": "Task difficulty + Jev, 2 features (max stuck, max premature)",
+  "C+F+J": "Task difficulty + trace facts + Jev",
   J: "Jev step judgments alone",
   F: "Trace facts alone",
 };
 const DELTA_LABELS: Record<string, string> = {
-  "C+F - C": "Adding trace facts to the task prior",
-  "C+P+F - C+P": "Adding trace facts to the prior and own trials",
-  "C+J - C": "Adding Jev step judgments to the task prior",
+  "C+F - C": "Adding trace facts to task difficulty",
+  "C+P+F - C+P": "Adding trace facts to task difficulty and own trials",
+  "C+J - C": "Adding Jev step judgments to task difficulty",
   "C+F+J - C+F": "Adding Jev on top of trace facts",
-  "C+J2 - C": "Adding Jev, 2 features, to the task prior",
+  "C+J2 - C": "Adding Jev, 2 features, to task difficulty",
 };
 const SOURCES = {
   facts: { label: "Trace facts · 20 models", sets: ["C", "C+F", "C+P", "C+P+F"], ks: ["2", "all"] },
-  jev: { label: "Jev judgments · 4 models", sets: ["C", "C+J", "C+J2", "C+F", "C+F+J", "J", "F"], ks: ["2", "4"] },
+  jev: { label: "LLM judge (Jev) · 4 models", sets: ["C", "C+J", "C+J2", "C+F", "C+F+J", "J", "F"], ks: ["2", "4"] },
 } as const;
 const K_LABEL: Record<string, string> = { "2": "First 2 user turns", "4": "First 4 user turns", all: "All turns" };
 const LO = 0.5; // AUROC axis starts at chance
@@ -105,7 +105,7 @@ export function AurocPanel({
 
       <div className="space-y-2.5">
         {rows.map(({ s, r }) => (
-          <div key={s} className="grid grid-cols-[minmax(0,300px)_1fr_120px] items-center gap-3">
+          <div key={s} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] items-center gap-3 md:grid-cols-[minmax(0,300px)_1fr_150px]">
             <span className={cn("text-[12px]", s === "C" ? "font-medium text-text-primary" : "text-text-secondary")}>
               {LABELS[s]}
             </span>
@@ -130,12 +130,12 @@ export function AurocPanel({
                 />
               )}
             </div>
-            <span className="num text-[12px] text-text-secondary">
-              {r.auroc.toFixed(3)} <span className="text-text-muted">[{r.ci_low.toFixed(2)}, {r.ci_high.toFixed(2)}]</span>
+            <span className="num text-[12px] whitespace-nowrap text-text-secondary">
+              {r.auroc.toFixed(3)} <span className="hidden text-text-muted sm:inline">[{r.ci_low.toFixed(2)}, {r.ci_high.toFixed(2)}]</span>
             </span>
           </div>
         ))}
-        <div className="grid grid-cols-[minmax(0,300px)_1fr_120px] gap-3 text-[10.5px] text-text-muted">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-3 text-[10.5px] md:grid-cols-[minmax(0,300px)_1fr_150px] text-text-muted">
           <span />
           <span className="num flex justify-between">
             <span>0.5 chance</span>
@@ -166,7 +166,7 @@ export function AurocPanel({
       )}
       <p className="text-[11px] leading-relaxed text-text-muted">
         AUROC for predicting failure, logistic regression, cross-validated by task. Lines are 95% intervals from a
-        bootstrap over tasks. The dashed line marks the task prior.
+        bootstrap over tasks. The dashed line marks task difficulty.
       </p>
     </div>
   );

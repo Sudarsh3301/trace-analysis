@@ -14,7 +14,7 @@ export function PageHeader({
   return (
     <header className="flex items-start justify-between gap-6 border-b border-border px-6 py-4">
       <div className="min-w-0">
-        <h1 className="text-[17px] font-semibold tracking-tight">{title}</h1>
+        <h1 className="text-[20px] leading-snug font-semibold tracking-tight md:text-[24px]">{title}</h1>
         {description && (
           <p className="mt-1 max-w-2xl text-[12.5px] leading-relaxed text-text-secondary">
             {description}

@@ -17,7 +17,7 @@ export default function TaskPriorPage() {
       description="Which task an agent faced predicts its failure far better than which model it was, or anything in its trace."
     >
       <section className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-        <Stat label="Task prior, AUROC" value={taskOnly?.estimate.toFixed(3) ?? "—"} hint={ci(taskOnly)} />
+        <Stat label="Task difficulty, AUROC" value={taskOnly?.estimate.toFixed(3) ?? "—"} hint={ci(taskOnly)} />
         <Stat label="Model identity, AUROC" value={modelOnly?.estimate.toFixed(3) ?? "—"} hint={ci(modelOnly)} />
         <Stat
           label="Tasks every run fails"
@@ -27,7 +27,7 @@ export default function TaskPriorPage() {
         <Stat label="Tasks every run passes" value={tasks.filter((t) => t.pass_rate === 1).length} />
       </section>
       <Note>
-        Pooled over all {pc.n_all.toLocaleString("en-US")} runs. The task prior is the task&apos;s failure rate among the
+        Pooled over all {pc.n_all.toLocaleString("en-US")} runs. Task difficulty is the task&apos;s failure rate among the
         other 19 models; model identity is the model&apos;s own failure rate. Brackets: 95% intervals, bootstrap over
         tasks.
       </Note>
@@ -40,7 +40,7 @@ export default function TaskPriorPage() {
       </Section>
 
       <Section
-        title="Adding trace signals to the prior, by model"
+        title="Adding trace signals to task difficulty, by model"
         description="The same comparison as on the Overview, per model. Select a model to see that the pattern holds for each one."
       >
         <AurocPanel models={models} prior={tables.auroc_prior} jev={tables.auroc_jev} />
