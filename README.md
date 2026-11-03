@@ -2,32 +2,36 @@
 
 **Interactive site: [sudarsh3301.github.io/trace-analysis](https://sudarsh3301.github.io/trace-analysis/)** · conversations with Jev annotations: [Hugging Face dataset](https://huggingface.co/datasets/JoyboyXoXo/agentic-failure-attribution-traces)
 
-**If you know which task an agent faced, you can predict whether it will fail better than with
-anything you can read in its trace.**
+**Knowing the task predicts agent failure better than reading the trace.**
 
-This repo tests the signals that agent trace-QA tools rely on — counts of tool calls and
-retrieval, LLM judgments of each step, and the user's reaction — against real outcomes on
-public [τ-bench](https://github.com/sierra-research/tau2-bench) banking-support conversations:
-**20 models, 7,760 conversations, 97 tasks**, with labels re-scored by the benchmark's own
-grading code. Jev judgments come from [TypeSafe Jev](https://docs.typesafe.ai) (17,160 calls,
-$1.50 in total).
+I tested the signals agent-monitoring tools read (tool calls, documents fetched, an LLM judging each
+step, user complaints) against **7,760 real outcomes from 20 AI models** on public
+[τ-bench](https://github.com/sierra-research/tau2-bench) customer-support tasks. One simple number,
+how often *other* models fail the same task, beat all of them.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/hero-dark.png">
+  <img alt="Prediction scores: task difficulty 0.86, task plus trace plus LLM judge 0.81, trace facts 0.63, LLM judge 0.61, coin flip 0.50" src="docs/figures/hero-light.png">
+</picture>
+
+- **Some tasks are just hard.** 13 of 97 tasks beat every model, every time.
+- **The right documents matter.** Same task, same model: in 42 tasks the successful runs had found the
+  right documents more often; in 18, the failed runs had; in 24, no difference.
+- **Users rarely warn you.** In 57 of 100 failed conversations, the user never complained before the
+  agent made its mistake.
+
+**What this means:** before you trust an agent-failure detector, check it against how hard the task
+is. Most of what it sees may be task difficulty.
+
+Step and pushback judgments come from [TypeSafe Jev](https://docs.typesafe.ai) (17,160 calls, $1.50 in total).
+The full numbers, method and limits follow below.
+
+## Findings
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/overview-dark.png">
   <img alt="Study design: three trace signals and the task prior, each tested against pass/fail outcomes" src="docs/figures/overview-light.png">
 </picture>
-
-## Findings
-
-TL;DR
-
-- Task difficulty predicts failure better than the agent's trace. Adding trace facts or step-level judgments does not improve failure prediction.
-
-- Getting the right documents into context is associated with success. Within the same task, conversations where all required documents reached the agent's context had a lower risk of failure.
-
-- User pushback is a weak early-warning signal. Most failed conversations show no pushback before the agent's decisive action.
-
-
 
 ### 1. The task comes first
 
@@ -89,8 +93,8 @@ first extra or wrong write action (the end of the run if the expected write neve
 | Threshold 0.5 (set in advance) | 0.548 | **0.568** [0.457, 0.671] |
 | Threshold 0.8 (post hoc, chosen on the validation sample) | 0.720 | **0.827** [0.745, 0.896] |
 
-Because the check missed no real pushback in validation (recall 1.00), 57% is a lower bound on
-silent failures. Failed runs reach their decisive point sooner, so the table above favours
+The check missed no real pushback in validation (recall 1.00 on 60 messages), so missed pushback
+is unlikely to explain the 57%. Failed runs reach their decisive point sooner, so the table above favours
 them looking silent; comparing on equal footing:
 
 - **Pushback per user message before the decisive point** (threshold 0.8): failed **0.111**,

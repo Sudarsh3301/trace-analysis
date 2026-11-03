@@ -177,10 +177,33 @@ def pushback(t, mode):
     save(fig, "pushback", mode)
 
 
+def hero(t, mode):
+    """README opener: the same scoreboard as the site's home page, in plain words."""
+    c2 = pd.read_csv(RES / "c2_judgments.csv")
+    c2 = c2[(c2.section == "auroc") & (c2.model == "MEAN OF MODELS") & (c2.k == 2)].set_index("feature_set").auroc
+    rows = [("How often other models fail this task", c2["C"]), ("Task + trace + LLM judge, combined", c2["C+F+J"]),
+            ("Trace: tool calls, documents fetched", c2["F"]), ("LLM judge reading each step", c2["J"]), ("Coin flip", 0.5)]
+    fig, ax = plt.subplots(figsize=(8, 3.2))
+    for i, (label, v) in enumerate(rows):
+        y = len(rows) - 1 - i
+        ax.barh(y, 1 - 0.5, left=0.5, height=0.62, color=t["box"], zorder=1)
+        ax.barh(y, v - 0.5, left=0.5, height=0.62, color=t["s1"] if i == 0 else t["axis"], zorder=2)
+        ax.text(1.01, y, f"{v:.2f}", va="center", fontsize=11, color=t["ink"], fontweight="bold" if i == 0 else None)
+    ax.set_yticks(range(len(rows)), [l for l, _ in reversed(rows)])
+    ax.get_yticklabels()[-1].set_fontweight("bold")
+    ax.set_xlim(0.5, 1.0); ax.set_xticks([0.5, 0.75, 1.0], ["0.5\ncoin flip", "0.75", "1.0\nperfect"])
+    for side in ("left", "bottom"):
+        ax.spines[side].set_visible(False)
+    ax.tick_params(length=0)
+    title(ax, t, "Which signal best predicts a failed conversation?",
+          "Adding the trace to the task's failure rate did not help. It made the prediction slightly worse.")
+    save(fig, "hero", mode)
+
+
 def main():
     for mode, t in THEMES.items():
         style(t)
-        overview(t, mode); heatmap(t, mode); auroc(t, mode); retrieval(t, mode); pushback(t, mode)
+        hero(t, mode); overview(t, mode); heatmap(t, mode); auroc(t, mode); retrieval(t, mode); pushback(t, mode)
     print("\n".join(sorted(str(p) for p in OUT.glob("*.png"))))
 
 
